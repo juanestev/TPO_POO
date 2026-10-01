@@ -1,0 +1,17 @@
+# Maven
+target/
+
+# Base de datos local (cada uno tiene la suya)
+*.db
+
+# IDEs
+.idea/
+*.iml
+.vscode/
+.classpath
+.project
+.settings/
+.claude/
+
+# Salida de VS Code
+bin/
