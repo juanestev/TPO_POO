@@ -3,7 +3,7 @@
 Base: Actividad 01 (Java + POO + MVC + HashMap/ArrayList + BD local) y Actividad 02 (arquitectura en capas, F1–F6, patrones Strategy/Observer/Adapter/DAO).
 
 Tamaños: **S** = ~1-2 h, **M** = ~3-5 h, **L** = ~6-10 h.
-Personas: **P1 a P5** (se reemplazan por nombres reales al asignar).
+Personas: **Santino y P2 a P5** (P2 a P5 se reemplazan por nombres reales al asignar).
 Cada tarea tiene un ID para usarlo como título de tarjeta en Trello (ej: `[2.3] Clase Persona`).
 
 ---
@@ -30,12 +30,12 @@ Cada tarea tiene un ID para usarlo como título de tarjeta en Trello (ej: `[2.3]
 
 | ID | Tarea | Dueño | Depende | Tam |
 |----|-------|-------|---------|-----|
-| 0.1 | Crear repositorio Git (GitHub) y dar acceso a los 5 | P1 | – | S |
+| 0.1 | Crear repositorio Git (GitHub) y dar acceso a los 5 | Santino | – | S |
 | 0.2 | Acordar estrategia de ramas (main + una rama por tarjeta + Pull Request) | Todos | 0.1 | S |
 | 0.3 | ✅ **Decidido:** Java 21 + Maven (con wrapper) + librerías (ver sección *Decisiones técnicas*) | Todos | – | S |
 | 0.4 | ✅ **Decidido:** UI con Swing | Todos | – | S |
 | 0.5 | ✅ **Decidido:** base de datos SQLite | Todos | – | S |
-| 0.6 | Crear proyecto base con estructura de paquetes (`vista`, `controlador`, `modelo`, `servicios`, `dao`, `seguridad`) | P1 | 0.3 | S |
+| 0.6 | Crear proyecto base con estructura de paquetes (`vista`, `controlador`, `modelo`, `servicios`, `dao`, `seguridad`) | Santino | 0.3 | S |
 | 0.7 | Armar el tablero Trello con listas, labels y reglas | P2 | – | S |
 | 0.8 | Revisar y aprobar las convenciones de la sección *Decisiones técnicas* | Todos | – | S |
 
@@ -47,12 +47,12 @@ Cada tarea tiene un ID para usarlo como título de tarjeta en Trello (ej: `[2.3]
 
 | ID | Tarea | Dueño | Depende | Tam |
 |----|-------|-------|---------|-----|
-| 1.1 | Clase abstracta `Persona` (atributos privados, getters/setters con validación: DNI, teléfono, mail) | P1 | 0.6 | M |
-| 1.2 | Subclases `VoluntarioMedico`, `VoluntarioSeguridad`, `Coordinador` (+ otras si se acuerda: traductor, asistencia a mayores) | P1 | 1.1 | M |
-| 1.3 | Enum/clase `Habilidad` (RCP, idiomas, etc.) y modelo de `Disponibilidad` horaria | P1 | 1.1 | M |
+| 1.1 | **Hecho** — Clase abstracta `Persona` (atributos privados, getters/setters con validación: DNI, teléfono, mail) | Santino | 0.6 | M |
+| 1.2 | **Hecho** — Subclases `VoluntarioMedico`, `VoluntarioSeguridad`, `Coordinador` (+ otras si se acuerda: traductor, asistencia a mayores) | Santino | 1.1 | M |
+| 1.3 | **Hecho** — Enum/clase `Habilidad` (RCP, idiomas, etc.) y modelo de `Disponibilidad` horaria | Santino | 1.1 | M |
 | 1.4 | Clase `PuntoDeControl` (zona, dotación requerida, lista de zonas cercanas) | P3 | 0.6 | M |
 | 1.5 | Clase `Asignacion` (voluntario + punto + estado SUGERIDA/CONFIRMADA) | P3 | 1.2, 1.4 | S |
-| 1.6 | Repositorio en memoria: `HashMap<DNI, Voluntario>` + `ArrayList` de asignados por punto | P1 | 1.2, 1.4 | M |
+| 1.6 | Repositorio en memoria: `HashMap<DNI, Voluntario>` + `ArrayList` de asignados por punto | Santino | 1.2, 1.4 | M |
 | 1.7 | Tests unitarios del modelo y validaciones | P5 | 1.1–1.6 | M |
 | 1.8 | Diagrama de clases UML actualizado (Persona, subclases, PuntoDeControl, Asignacion, etc.) | P5 | 1.5 | M |
 
@@ -111,7 +111,7 @@ Orden definido en la Actividad 02: primero F5 y F1 (base), luego F2 y F3.
 | 3.14 | Generación del QR personal (ZXing) para incluir en el mail | P4 | 3.11 | M |
 | 3.15 | `RegistroAsistencia` (check-in/out por asignación) + `AsistenciaDAO` | P3 | 3.8, 2.2 | M |
 | 3.16 | Lectura de QR (webcam o, como plan B, ingreso manual del código) | P4 | 3.14 | L |
-| 3.17 | `ControladorAsistencia` | P1 | 3.15 | S |
+| 3.17 | `ControladorAsistencia` | Santino | 3.15 | S |
 
 **Hito 3:** desde consola/tests: login → sugerir → confirmar → mail (o log) → check-in.
 
@@ -123,8 +123,8 @@ Orden definido en la Actividad 02: primero F5 y F1 (base), luego F2 y F3.
 |----|-------|-------|---------|-----|
 | 4.1 | Enum `EstadoCobertura` (CUBIERTO, DEFICIT, SOBRANTE) | P3 | 1.4 | S |
 | 4.2 | `CalculadorCobertura`: dotación requerida vs. presentes (usa asistencia) | P3 | 4.1, 3.15 | M |
-| 4.3 | Patrón **Observer**: el modelo notifica al panel ante cambio de asignación/check-in | P1 | 4.2 | M |
-| 4.4 | `ControladorCobertura` | P1 | 4.2, 4.3 | S |
+| 4.3 | Patrón **Observer**: el modelo notifica al panel ante cambio de asignación/check-in | Santino | 4.2 | M |
+| 4.4 | `ControladorCobertura` | Santino | 4.2, 4.3 | S |
 | 4.5 | `EstrategiaReasignacion` (prioriza presentes y de zonas cercanas con sobrante) | P3 | 3.5, 4.2 | L |
 | 4.6 | `MotorReasignacion` (reutiliza el motor de F1) | P3 | 4.5 | M |
 | 4.7 | Aviso de cambios a voluntarios afectados (reusa F2) | P4 | 4.6, 3.11 | S |
@@ -138,10 +138,10 @@ Orden definido en la Actividad 02: primero F5 y F1 (base), luego F2 y F3.
 
 | ID | Tarea | Dueño | Depende | Tam |
 |----|-------|-------|---------|-----|
-| 5.1 | Mockups/bocetos en papel o Figma de todas las pantallas (acordar entre todos) | P4 + P1 | 0.4 | M |
-| 5.2 | Ventana principal + navegación por rol (cada rol ve solo lo suyo) | P1 | 3.3, 5.1 | M |
-| 5.3 | Pantalla de Login | P1 | 3.2 | S |
-| 5.4 | Formularios de alta/baja/modificación de voluntarios + `ControladorVoluntarios` | P1 | 1.6, 2.3 | L |
+| 5.1 | Mockups/bocetos en papel o Figma de todas las pantallas (acordar entre todos) | P4 + Santino | 0.4 | M |
+| 5.2 | Ventana principal + navegación por rol (cada rol ve solo lo suyo) | Santino | 3.3, 5.1 | M |
+| 5.3 | Pantalla de Login | Santino | 3.2 | S |
+| 5.4 | Formularios de alta/baja/modificación de voluntarios + `ControladorVoluntarios` | Santino | 1.6, 2.3 | L |
 | 5.5 | Pantalla de alta/edición de puntos de control (con zonas cercanas) | P5 | 1.4, 2.4 | M |
 | 5.6 | Pantalla de asignación (sugerencias F1 + F6, botón confirmar) + `ControladorAsignacion` | P3 | 3.8, 4.6 | L |
 | 5.7 | Panel de cobertura (colores verde/rojo/amarillo, se actualiza solo) | P5 | 4.4 | L |
@@ -162,9 +162,9 @@ Orden definido en la Actividad 02: primero F5 y F1 (base), luego F2 y F3.
 | 6.4 | Corrección de bugs encontrados (tarjetas nuevas por cada bug) | Todos | 6.1, 6.2 | L |
 | 6.5 | Verificar que el código respete los 4 pilares y los patrones (Strategy, Observer, Adapter, DAO) | P5 | 6.4 | M |
 | 6.6 | Manual de usuario / README (cómo instalar y ejecutar) | P5 | 6.4 | M |
-| 6.7 | Informe final / documentación para la cátedra (actualizar diagramas con lo realmente implementado) | P1 | 6.4 | M |
+| 6.7 | Informe final / documentación para la cátedra (actualizar diagramas con lo realmente implementado) | Santino | 6.4 | M |
 | 6.8 | Guion y ensayo de la demo / presentación | Todos | 6.4 | M |
-| 6.9 | Entrega (empaquetar, subir, verificar que corre en otra PC) | P1 | 6.6–6.8 | S |
+| 6.9 | Entrega (empaquetar, subir, verificar que corre en otra PC) | Santino | 6.6–6.8 | S |
 
 ---
 
@@ -172,7 +172,7 @@ Orden definido en la Actividad 02: primero F5 y F1 (base), luego F2 y F3.
 
 | Persona | Foco principal | Tarjetas |
 |---------|----------------|----------|
-| P1 | Modelo (personas/voluntarios) + Controladores + UI de voluntarios y login | ~14 |
+| Santino | Modelo (personas/voluntarios) + Controladores + UI de voluntarios y login | ~14 |
 | P2 | Persistencia + Seguridad (F5) + gestión de usuarios | ~14 |
 | P3 | Motores de asignación/reasignación (F1, F6) + cobertura | ~14 |
 | P4 | Servicios externos: mail (F2), QR (F3) + pantalla QR | ~10 |
