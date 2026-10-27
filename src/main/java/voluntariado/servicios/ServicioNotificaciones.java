@@ -38,6 +38,22 @@ public class ServicioNotificaciones {
                 cuerpo, CodigoQr.generarImagen(asignacion.getCodigoQr(), 200));
     }
 
+    public MensajeMail crearAvisoCambio(Asignacion anterior, Asignacion nueva, Disponibilidad turno,
+            String puntoEncuentro) {
+        if (anterior == null || nueva == null || anterior.getEstado() != EstadoAsignacion.CONFIRMADA
+                || nueva.getEstado() != EstadoAsignacion.CONFIRMADA
+                || !anterior.getVoluntario().getDni().equals(nueva.getVoluntario().getDni())
+                || anterior.getPunto().equals(nueva.getPunto())) {
+            throw new IllegalArgumentException("El cambio necesita dos asignaciones confirmadas del mismo voluntario en puntos distintos");
+        }
+        MensajeMail avisoNuevo = crearAviso(nueva, turno, puntoEncuentro);
+        String cuerpo = "Cambio de punto de control\nPunto anterior: " + anterior.getPunto().getCodigo()
+                + " (" + anterior.getPunto().getZona() + ")\nPunto nuevo: "
+                + nueva.getPunto().getCodigo() + " (" + nueva.getPunto().getZona() + ")\n"
+                + avisoNuevo.cuerpo();
+        return new MensajeMail(avisoNuevo.destinatario(), "Cambio de asignacion", cuerpo, avisoNuevo.qrPng());
+    }
+
     public void enviarOEncolar(MensajeMail mensaje) {
         if (mensaje == null) {
             throw new IllegalArgumentException("El mensaje es obligatorio");
