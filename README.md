@@ -31,3 +31,7 @@ src/test/java/       tests JUnit 5 (mismos paquetes)
 
 ## Documentacion
 - Plan de trabajo y decisiones tecnicas: [PLAN_TPO.md](PLAN_TPO.md)
+- Diagrama de clases del modelo: [docs/modelo-clases.md](docs/modelo-clases.md)
+
+## Estado del desarrollo
+El modelo en memoria ya permite sugerir asignaciones, registrar entrada/salida con un codigo QR y calcular cobertura. Tambien hay una matriz de permisos por rol y adaptadores de mail. La ventana principal sigue siendo una pantalla de prueba: estos flujos todavia no estan conectados a la interfaz ni a SQLite. La cola de mails pendientes solo dura mientras la aplicacion esta abierta.

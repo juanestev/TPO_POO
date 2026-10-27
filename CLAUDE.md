@@ -66,9 +66,10 @@ Datos en memoria: `HashMap<DNI, Voluntario>` para búsqueda instantánea + `Arra
 - Git: una rama por tarjeta (`feature/1.1-persona`), Pull Request revisado por otra persona, `main` siempre compila.
 
 ## 6. Estado actual
-- ✅ Fase 0 (parcial): decisiones técnicas tomadas, proyecto Maven base con estructura de paquetes y `Main` que abre una ventana, wrapper `mvnw` generado, README. El repo de GitHub lo crea el usuario aparte.
-- ⏭️ Siguiente: **Fase 1 – Modelo base**, empezando por la tarjeta 1.1 (`Persona` abstracta con validaciones).
-- Actualizá esta sección cuando se complete una fase o cambie una decisión.
+- Fase 1: modelo base, repositorio en memoria, tests y UML implementados; las tarjetas nuevas esperan revisión de otra persona.
+- Sin SQLite: hay sugerencias de asignación y reasignación, asistencia en memoria, cobertura, matriz de permisos, mail con QR y lector QR desde imagen/código manual. Ver estados por tarjeta en `PLAN_TPO.md`.
+- `Main` sigue siendo una ventana de prueba. Faltan persistencia DAO, integración de controladores y pantallas. La cola de mails pendientes vive solo en memoria.
+- Próximo paso: integrar estos componentes con la persistencia y la interfaz, y revisar las tarjetas implementadas antes de marcarlas `Hecho`.
 
 ## 7. Material de referencia de la materia
 Ejemplos de clase del usuario (UVA 4, 5, 6 – biblioteca con Swing, excepciones y archivos de texto) están en `C:\Users\jmestevez\Documents\POO\` (`uva_4.zip`, `uva_5.zip`, `uva6.zip`). Consultalos para mantener el mismo estilo.

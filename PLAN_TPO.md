@@ -50,11 +50,11 @@ Cada tarea tiene un ID para usarlo como título de tarjeta en Trello (ej: `[2.3]
 | 1.1 | **Hecho** — Clase abstracta `Persona` (atributos privados, getters/setters con validación: DNI, teléfono, mail) | Santino | 0.6 | M |
 | 1.2 | **Hecho** — Subclases `VoluntarioMedico`, `VoluntarioSeguridad`, `Coordinador` (+ otras si se acuerda: traductor, asistencia a mayores) | Santino | 1.1 | M |
 | 1.3 | **Hecho** — Enum/clase `Habilidad` (RCP, idiomas, etc.) y modelo de `Disponibilidad` horaria | Santino | 1.1 | M |
-| 1.4 | Clase `PuntoDeControl` (zona, dotación requerida, lista de zonas cercanas) | P3 | 0.6 | M |
-| 1.5 | Clase `Asignacion` (voluntario + punto + estado SUGERIDA/CONFIRMADA) | P3 | 1.2, 1.4 | S |
-| 1.6 | Repositorio en memoria: `HashMap<DNI, Voluntario>` + `ArrayList` de asignados por punto | Santino | 1.2, 1.4 | M |
-| 1.7 | Tests unitarios del modelo y validaciones | P5 | 1.1–1.6 | M |
-| 1.8 | Diagrama de clases UML actualizado (Persona, subclases, PuntoDeControl, Asignacion, etc.) | P5 | 1.5 | M |
+| 1.4 | **Implementado, pendiente de revisión** — Clase `PuntoDeControl` (zona, dotación requerida, lista de zonas cercanas) | P3 | 0.6 | M |
+| 1.5 | **Implementado, pendiente de revisión** — Clase `Asignacion` (voluntario + punto + estado SUGERIDA/CONFIRMADA) | P3 | 1.2, 1.4 | S |
+| 1.6 | **Implementado, pendiente de revisión** — Repositorio en memoria: `HashMap<DNI, Voluntario>` + `ArrayList` de asignados por punto | Santino | 1.2, 1.4 | M |
+| 1.7 | **Implementado, pendiente de revisión** — Tests unitarios del modelo y validaciones | P5 | 1.1–1.6 | M |
+| 1.8 | **Implementado, pendiente de revisión** — Diagrama de clases UML actualizado (Persona, subclases, PuntoDeControl, Asignacion, etc.) | P5 | 1.5 | M |
 
 **Hito 1:** se pueden crear voluntarios y puntos en memoria y filtrarlos por habilidad desde un `main` de prueba.
 
@@ -85,32 +85,32 @@ Orden definido en la Actividad 02: primero F5 y F1 (base), luego F2 y F3.
 |----|-------|-------|---------|-----|
 | 3.1 | Modelo `Usuario` + enum `Rol` (ADMINISTRADOR, COORDINADOR, OPERADOR) + `UsuarioDAO` | P2 | 2.2 | M |
 | 3.2 | Módulo de seguridad: login, hash de contraseñas, sesión actual | P2 | 3.1 | M |
-| 3.3 | Matriz de permisos (tabla de la Act. 02 §5.5) como código: `tienePermiso(rol, accion)` | P2 | 3.2 | M |
-| 3.4 | Tests de permisos por rol | P5 | 3.3 | S |
+| 3.3 | **Implementado, pendiente de integración** — Matriz de permisos (tabla de la Act. 02 §5.5) como código: `tienePermiso(rol, accion)` | P2 | 3.2 | M |
+| 3.4 | **Implementado, pendiente de revisión** — Tests de permisos por rol | P5 | 3.3 | S |
 
 ### F1 – Asignación automática sugerida
 | ID | Tarea | Dueño | Depende | Tam |
 |----|-------|-------|---------|-----|
-| 3.5 | Interfaz `EstrategiaAsignacion` (patrón **Strategy**) | P3 | 1.5 | S |
-| 3.6 | Estrategia por habilidad + disponibilidad (filtra el HashMap) | P3 | 3.5, 1.6 | L |
-| 3.7 | `MotorAsignacion`: genera sugerencias para un punto, sin duplicar voluntarios | P3 | 3.6 | M |
+| 3.5 | **Implementado, pendiente de revisión** — Interfaz `EstrategiaAsignacion` (patrón **Strategy**) | P3 | 1.5 | S |
+| 3.6 | **Implementado, pendiente de revisión** — Estrategia por habilidad + disponibilidad (filtra el HashMap) | P3 | 3.5, 1.6 | L |
+| 3.7 | **Implementado, pendiente de revisión** — `MotorAsignacion`: genera sugerencias para un punto, sin duplicar voluntarios | P3 | 3.6 | M |
 | 3.8 | Confirmación de asignación (SUGERIDA → CONFIRMADA) + guardado vía DAO | P3 | 3.7, 2.4 | M |
-| 3.9 | Tests del motor (casos: faltan voluntarios, sobran, ninguno disponible) | P5 | 3.7 | M |
+| 3.9 | **Implementado, pendiente de revisión** — Tests del motor (casos: faltan voluntarios, sobran, ninguno disponible) | P5 | 3.7 | M |
 
 ### F2 – Notificaciones por mail
 | ID | Tarea | Dueño | Depende | Tam |
 |----|-------|-------|---------|-----|
-| 3.10 | Interfaz `NotificadorMail` + adaptador SMTP (**Adapter**) | P4 | 0.3 | M |
-| 3.11 | `ServicioNotificaciones`: arma el mail (puesto, horario, punto de encuentro, QR) | P4 | 3.10, 3.8 | M |
-| 3.12 | Cola de reintentos si falla la red (los avisos no se pierden) | P4 | 3.11 | M |
-| 3.13 | Adaptador "falso" (consola/log) para tests y demo sin internet | P4 | 3.10 | S |
+| 3.10 | **Implementado, pendiente de prueba SMTP real** — Interfaz `NotificadorMail` + adaptador SMTP (**Adapter**) | P4 | 0.3 | M |
+| 3.11 | **Implementado, pendiente de integración** — `ServicioNotificaciones`: arma el mail (puesto, horario, punto de encuentro, QR) | P4 | 3.10, 3.8 | M |
+| 3.12 | **Parcial** — Cola de reintentos en memoria; falta conservarla al cerrar la app | P4 | 3.11 | M |
+| 3.13 | **Implementado, pendiente de revisión** — Adaptador "falso" (consola/log) para tests y demo sin internet | P4 | 3.10 | S |
 
 ### F3 – Check-in / check-out con QR
 | ID | Tarea | Dueño | Depende | Tam |
 |----|-------|-------|---------|-----|
-| 3.14 | Generación del QR personal (ZXing) para incluir en el mail | P4 | 3.11 | M |
-| 3.15 | `RegistroAsistencia` (check-in/out por asignación) + `AsistenciaDAO` | P3 | 3.8, 2.2 | M |
-| 3.16 | Lectura de QR (webcam o, como plan B, ingreso manual del código) | P4 | 3.14 | L |
+| 3.14 | **Implementado, pendiente de revisión** — Generación del QR personal (ZXing) para incluir en el mail | P4 | 3.11 | M |
+| 3.15 | **Parcial** — `RegistroAsistencia` en memoria; falta `AsistenciaDAO` | P3 | 3.8, 2.2 | M |
+| 3.16 | **Parcial** — Lectura de QR desde imagen y validación del código manual; falta conectarlo al check-in | P4 | 3.14 | L |
 | 3.17 | `ControladorAsistencia` | Santino | 3.15 | S |
 
 **Hito 3:** desde consola/tests: login → sugerir → confirmar → mail (o log) → check-in.
@@ -121,14 +121,14 @@ Orden definido en la Actividad 02: primero F5 y F1 (base), luego F2 y F3.
 
 | ID | Tarea | Dueño | Depende | Tam |
 |----|-------|-------|---------|-----|
-| 4.1 | Enum `EstadoCobertura` (CUBIERTO, DEFICIT, SOBRANTE) | P3 | 1.4 | S |
-| 4.2 | `CalculadorCobertura`: dotación requerida vs. presentes (usa asistencia) | P3 | 4.1, 3.15 | M |
+| 4.1 | **Implementado, pendiente de revisión** — Enum `EstadoCobertura` (CUBIERTO, DEFICIT, SOBRANTE) | P3 | 1.4 | S |
+| 4.2 | **Implementado, pendiente de integración** — `CalculadorCobertura`: dotación requerida vs. presentes (usa asistencia) | P3 | 4.1, 3.15 | M |
 | 4.3 | Patrón **Observer**: el modelo notifica al panel ante cambio de asignación/check-in | Santino | 4.2 | M |
 | 4.4 | `ControladorCobertura` | Santino | 4.2, 4.3 | S |
-| 4.5 | `EstrategiaReasignacion` (prioriza presentes y de zonas cercanas con sobrante) | P3 | 3.5, 4.2 | L |
-| 4.6 | `MotorReasignacion` (reutiliza el motor de F1) | P3 | 4.5 | M |
+| 4.5 | **Implementado, pendiente de revisión** — `EstrategiaReasignacion` (prioriza presentes y de zonas cercanas con sobrante) | P3 | 3.5, 4.2 | L |
+| 4.6 | **Implementado, pendiente de integración** — `MotorReasignacion` (reutiliza el motor de F1) | P3 | 4.5 | M |
 | 4.7 | Aviso de cambios a voluntarios afectados (reusa F2) | P4 | 4.6, 3.11 | S |
-| 4.8 | Tests de cobertura, Observer y reasignación | P5 | 4.2–4.6 | M |
+| 4.8 | **Parcial** — Tests de cobertura y reasignación; falta Observer | P5 | 4.2–4.6 | M |
 
 **Hito 4:** simulación en tests: un punto queda con déficit → se sugiere mover gente de zona cercana.
 
