@@ -1,0 +1,9 @@
+package voluntariado.seguridad;
+
+public enum Accion {
+    GESTIONAR_USUARIOS,
+    EDITAR_VOLUNTARIOS_Y_PUNTOS,
+    CONFIRMAR_ASIGNACIONES,
+    REGISTRAR_ASISTENCIA,
+    VER_COBERTURA
+}
