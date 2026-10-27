@@ -32,6 +32,7 @@ src/test/java/       tests JUnit 5 (mismos paquetes)
 ## Documentacion
 - Plan de trabajo y decisiones tecnicas: [PLAN_TPO.md](PLAN_TPO.md)
 - Diagrama de clases del modelo: [docs/modelo-clases.md](docs/modelo-clases.md)
+- Esquema de la base (DER y decisiones): [docs/esquema-bd.md](docs/esquema-bd.md)
 
 ## Estado del desarrollo
-El modelo en memoria ya permite sugerir asignaciones, registrar entrada/salida con un codigo QR y calcular cobertura. Tambien hay una matriz de permisos por rol y adaptadores de mail. La ventana principal sigue siendo una pantalla de prueba: estos flujos todavia no estan conectados a la interfaz ni a SQLite. La cola de mails pendientes solo dura mientras la aplicacion esta abierta.
+El modelo en memoria ya permite sugerir asignaciones, registrar entrada/salida con un codigo QR y calcular cobertura. Tambien hay una matriz de permisos por rol y adaptadores de mail. Los voluntarios, puntos y asignaciones se guardan en SQLite (`voluntariado.db`, se crea solo al abrir la app; si esta vacia se cargan 30 voluntarios y 5 puntos de prueba). Para empezar de cero, borrar ese archivo. La ventana principal sigue siendo una pantalla de prueba: los flujos todavia no estan conectados a la interfaz. La cola de mails pendientes solo dura mientras la aplicacion esta abierta.
