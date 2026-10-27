@@ -22,6 +22,18 @@ class AsignacionRepositorioTest {
     }
 
     @Test
+    void alLeerDeLaBaseConservaElCodigoQrYElEstado() {
+        Voluntario medico = voluntario("12345678");
+        PuntoDeControl punto = new PuntoDeControl("P1", "Centro", 2);
+        Asignacion leida = new Asignacion(medico, punto, "qr-guardado", EstadoAsignacion.CONFIRMADA);
+        assertEquals("qr-guardado", leida.getCodigoQr());
+        assertEquals(EstadoAsignacion.CONFIRMADA, leida.getEstado());
+        assertThrows(DatosInvalidosException.class,
+                () -> new Asignacion(medico, punto, " ", EstadoAsignacion.SUGERIDA));
+        assertThrows(DatosInvalidosException.class, () -> new Asignacion(medico, punto, "qr", null));
+    }
+
+    @Test
     void guardaVoluntariosPorDniYFiltraPorHabilidad() {
         RepositorioEnMemoria repositorio = new RepositorioEnMemoria();
         Voluntario medico = voluntario("12345678");

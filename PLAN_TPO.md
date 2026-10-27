@@ -64,13 +64,13 @@ Cada tarea tiene un ID para usarlo como título de tarjeta en Trello (ej: `[2.3]
 
 | ID | Tarea | Dueño | Depende | Tam |
 |----|-------|-------|---------|-----|
-| 2.1 | Diseño del esquema de BD (tablas: voluntarios, puntos, asignaciones, asistencia, usuarios, roles) + diagrama ER | P2 | 1.5 | M |
-| 2.2 | Clase de conexión y script de creación de tablas | P2 | 2.1 | M |
-| 2.3 | Interfaz `VoluntarioDAO` + implementación | P2 | 2.2, 1.2 | M |
-| 2.4 | `PuntoDeControlDAO` + `AsignacionDAO` | P2 | 2.2, 1.4, 1.5 | M |
-| 2.5 | Carga inicial: al abrir la app, cargar BD → HashMap/ArrayList | P2 | 2.3, 1.6 | S |
-| 2.6 | Datos de prueba (seed): ~30 voluntarios, 5 puntos con zonas cercanas | P5 | 2.3, 2.4 | S |
-| 2.7 | Tests de los DAO | P5 | 2.3, 2.4 | M |
+| 2.1 | **Implementado, pendiente de revisión** — Diseño del esquema de BD (tablas: voluntarios, puntos, asignaciones, asistencia, usuarios, roles) + diagrama ER | P2 | 1.5 | M |
+| 2.2 | **Implementado, pendiente de revisión** — Clase de conexión y script de creación de tablas | P2 | 2.1 | M |
+| 2.3 | **Implementado, pendiente de revisión** — Interfaz `VoluntarioDAO` + implementación | P2 | 2.2, 1.2 | M |
+| 2.4 | **Implementado, pendiente de revisión** — `PuntoDeControlDAO` + `AsignacionDAO` | P2 | 2.2, 1.4, 1.5 | M |
+| 2.5 | **Implementado, pendiente de revisión** — Carga inicial: al abrir la app, cargar BD → HashMap/ArrayList | P2 | 2.3, 1.6 | S |
+| 2.6 | **Implementado, pendiente de revisión** — Datos de prueba (seed): ~30 voluntarios, 5 puntos con zonas cercanas | P5 | 2.3, 2.4 | S |
+| 2.7 | **Implementado, pendiente de revisión** — Tests de los DAO | P5 | 2.3, 2.4 | M |
 
 **Hito 2:** cerrar y abrir la app y los datos siguen ahí.
 
