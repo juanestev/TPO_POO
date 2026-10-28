@@ -97,6 +97,20 @@ public class RepositorioEnMemoria {
         return Collections.unmodifiableList(asignaciones);
     }
 
+    public Asignacion buscarAsignacionPorQr(String codigoQr) {
+        if (codigoQr == null || codigoQr.isBlank()) {
+            throw new DatosInvalidosException("El codigo QR es obligatorio");
+        }
+        for (List<Asignacion> asignaciones : asignacionesPorPunto.values()) {
+            for (Asignacion asignacion : asignaciones) {
+                if (asignacion.getCodigoQr().equals(codigoQr)) {
+                    return asignacion;
+                }
+            }
+        }
+        throw new DatosInvalidosException("La asignacion no esta registrada");
+    }
+
     public boolean estaAsignado(String dni) {
         for (List<Asignacion> asignaciones : asignacionesPorPunto.values()) {
             if (asignaciones.stream().anyMatch(a -> a.getVoluntario().getDni().equals(dni))) {

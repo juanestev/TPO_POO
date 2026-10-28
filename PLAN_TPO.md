@@ -109,7 +109,7 @@ Orden definido en la Actividad 02: primero F5 y F1 (base), luego F2 y F3.
 | ID | Tarea | Dueño | Depende | Tam |
 |----|-------|-------|---------|-----|
 | 3.14 | **Implementado, pendiente de revisión** — Generación del QR personal (ZXing) para incluir en el mail | P4 | 3.11 | M |
-| 3.15 | **Parcial** — `RegistroAsistencia` en memoria; falta `AsistenciaDAO` | P3 | 3.8, 2.2 | M |
+| 3.15 | **Implementado, pendiente de integración con la interfaz** — `RegistroAsistencia` y `AsistenciaDAO` guardan y recuperan check-in/out por asignación | P3 | 3.8, 2.2 | M |
 | 3.16 | **Parcial** — Lectura de QR desde imagen y validación del código manual; falta conectarlo al check-in | P4 | 3.14 | L |
 | 3.17 | `ControladorAsistencia` | Santino | 3.15 | S |
 
