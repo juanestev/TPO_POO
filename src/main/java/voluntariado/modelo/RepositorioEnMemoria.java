@@ -11,6 +11,7 @@ public class RepositorioEnMemoria {
     private final Map<String, Voluntario> voluntariosPorDni = new HashMap<>();
     private final Map<String, PuntoDeControl> puntosPorCodigo = new HashMap<>();
     private final Map<String, List<Asignacion>> asignacionesPorPunto = new HashMap<>();
+    private final List<ObservadorCobertura> observadoresCobertura = new ArrayList<>();
 
     public void agregarVoluntario(Voluntario voluntario) {
         if (voluntario == null) {
@@ -70,6 +71,24 @@ public class RepositorioEnMemoria {
         }
         validarNuevaAsignacion(asignacion);
         asignacionesPorPunto.get(asignacion.getPunto().getCodigo()).add(asignacion);
+        notificarCobertura(asignacion.getPunto());
+    }
+
+    public void agregarObservadorCobertura(ObservadorCobertura observador) {
+        if (observador == null) {
+            throw new DatosInvalidosException("El observador es obligatorio");
+        }
+        observadoresCobertura.add(observador);
+    }
+
+    public void quitarObservadorCobertura(ObservadorCobertura observador) {
+        observadoresCobertura.remove(observador);
+    }
+
+    private void notificarCobertura(PuntoDeControl punto) {
+        for (ObservadorCobertura observador : List.copyOf(observadoresCobertura)) {
+            observador.alCambiar(punto);
+        }
     }
 
     public void validarNuevaAsignacion(Asignacion asignacion) {
