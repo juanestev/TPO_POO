@@ -156,7 +156,7 @@ Orden definido en la Actividad 02: primero F5 y F1 (base), luego F2 y F3.
 
 | ID | Tarea | Dueño | Depende | Tam |
 |----|-------|-------|---------|-----|
-| 6.1 | Prueba integral de **Flujo A** (asignar y avisar) según Act. 02 §5.6 | Todos | 5.* | M |
+| 6.1 | **Parcial** — Demo de consola con SQLite temporal: asigna, confirma, simula avisos, lee QR y registra asistencia; falta prueba integral desde la interfaz | Todos | 5.* | M |
 | 6.2 | Prueba integral de **Flujo B** (día del evento y emergencia) | Todos | 5.* | M |
 | 6.3 | Revisión de seguridad: permisos por rol, datos sensibles privados, Ley 25.326 | P2 | 6.1 | S |
 | 6.4 | Corrección de bugs encontrados (tarjetas nuevas por cada bug) | Todos | 6.1, 6.2 | L |

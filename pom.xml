@@ -14,6 +14,7 @@
         <!-- Compila para Java 21 aunque el JDK instalado sea mas nuevo -->
         <maven.compiler.release>21</maven.compiler.release>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <exec.mainClass>voluntariado.Main</exec.mainClass>
     </properties>
 
     <dependencies>
@@ -66,7 +67,7 @@
                 <artifactId>exec-maven-plugin</artifactId>
                 <version>3.2.0</version>
                 <configuration>
-                    <mainClass>voluntariado.Main</mainClass>
+                    <mainClass>${exec.mainClass}</mainClass>
                 </configuration>
             </plugin>
         </plugins>

@@ -67,9 +67,9 @@ Datos en memoria: `HashMap<DNI, Voluntario>` para búsqueda instantánea + `Arra
 
 ## 6. Estado actual
 - Fase 1: modelo base, repositorio en memoria, tests y UML implementados; las tarjetas nuevas esperan revisión de otra persona.
-- Fase 2 (persistencia SQLite) implementada en `dao/`: esquema en `src/main/resources/db/schema.sql`, DAOs de voluntarios, puntos y asignaciones, carga inicial y datos de prueba (ver `docs/esquema-bd.md`). Falta `AsistenciaDAO` (3.15) y `UsuarioDAO` (3.1); sus tablas ya existen.
-- En memoria: hay sugerencias de asignación y reasignación, asistencia en memoria, cobertura, matriz de permisos, mail con QR y lector QR desde imagen/código manual. Ver estados por tarjeta en `PLAN_TPO.md`.
-- `Main` sigue siendo una ventana de prueba. Al iniciar carga la base en `RepositorioEnMemoria`. Faltan integración de controladores y pantallas. La cola de mails pendientes vive solo en memoria.
+- Fase 2 (persistencia SQLite) implementada en `dao/`: esquema en `src/main/resources/db/schema.sql`, DAOs de voluntarios, puntos, asignaciones y asistencia, carga inicial y datos de prueba (ver `docs/esquema-bd.md`). Falta `UsuarioDAO` (3.1); su tabla ya existe.
+- Hay sugerencias y confirmación persistida de asignaciones, check-in/out persistido, reasignación sugerida, cobertura, matriz de permisos, mail con QR y lector QR desde imagen/código manual. Ver estados por tarjeta en `PLAN_TPO.md`.
+- `Main` sigue siendo una ventana de prueba. Al iniciar carga la base en `RepositorioEnMemoria`. `DemoFlujo` muestra el recorrido completo con SQLite temporal y mails simulados. Faltan integración de pantallas y la cola persistente de mails.
 - Próximo paso: integrar estos componentes con la persistencia y la interfaz, y revisar las tarjetas implementadas antes de marcarlas `Hecho`.
 
 ## 7. Material de referencia de la materia

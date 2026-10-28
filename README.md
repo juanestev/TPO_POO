@@ -16,6 +16,18 @@ En Windows PowerShell/CMD usar `mvnw.cmd` en lugar de `./mvnw`.
 ./mvnw exec:java     # abrir la aplicacion
 ```
 
+### Demo para la catedra
+
+En PowerShell, desde la raiz del proyecto:
+
+```powershell
+.\mvnw.cmd -q '-Dexec.mainClass=voluntariado.DemoFlujo' compile exec:java
+```
+
+La demo usa una base SQLite temporal y datos ficticios. Muestra sugerencias, confirmacion persistida,
+cuatro avisos simulados, lectura de QR, check-in/out y el cambio de cobertura de DEFICIT a CUBIERTO
+y de nuevo a DEFICIT. No envia mails reales ni modifica `voluntariado.db`.
+
 ## Estructura
 ```
 src/main/java/voluntariado/
@@ -35,4 +47,4 @@ src/test/java/       tests JUnit 5 (mismos paquetes)
 - Esquema de la base (DER y decisiones): [docs/esquema-bd.md](docs/esquema-bd.md)
 
 ## Estado del desarrollo
-El modelo en memoria ya permite sugerir asignaciones, registrar entrada/salida con un codigo QR y calcular cobertura. Tambien hay una matriz de permisos por rol y adaptadores de mail. Los voluntarios, puntos y asignaciones se guardan en SQLite (`voluntariado.db`, se crea solo al abrir la app; si esta vacia se cargan 30 voluntarios y 5 puntos de prueba). Para empezar de cero, borrar ese archivo. La ventana principal sigue siendo una pantalla de prueba: los flujos todavia no estan conectados a la interfaz. La cola de mails pendientes solo dura mientras la aplicacion esta abierta.
+El modelo permite sugerir y confirmar asignaciones, registrar entrada/salida con un codigo QR y calcular cobertura. Tambien hay una matriz de permisos por rol y adaptadores de mail. Voluntarios, puntos, asignaciones y asistencia se guardan en SQLite (`voluntariado.db`, se crea solo al abrir la app; si esta vacia se cargan 30 voluntarios y 5 puntos de prueba). La ventana principal sigue siendo una pantalla de prueba: los flujos todavia no estan conectados a la interfaz. La cola de mails pendientes solo dura mientras la aplicacion esta abierta.
