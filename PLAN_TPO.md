@@ -94,7 +94,7 @@ Orden definido en la Actividad 02: primero F5 y F1 (base), luego F2 y F3.
 | 3.5 | **Implementado, pendiente de revisión** — Interfaz `EstrategiaAsignacion` (patrón **Strategy**) | P3 | 1.5 | S |
 | 3.6 | **Implementado, pendiente de revisión** — Estrategia por habilidad + disponibilidad (filtra el HashMap) | P3 | 3.5, 1.6 | L |
 | 3.7 | **Implementado, pendiente de revisión** — `MotorAsignacion`: genera sugerencias para un punto, sin duplicar voluntarios | P3 | 3.6 | M |
-| 3.8 | Confirmación de asignación (SUGERIDA → CONFIRMADA) + guardado vía DAO | P3 | 3.7, 2.4 | M |
+| 3.8 | **Implementado, pendiente de integración con la interfaz** — `ServicioAsignaciones` confirma la sugerencia, conserva el QR y guarda vía DAO antes de actualizar memoria | P3 | 3.7, 2.4 | M |
 | 3.9 | **Implementado, pendiente de revisión** — Tests del motor (casos: faltan voluntarios, sobran, ninguno disponible) | P5 | 3.7 | M |
 
 ### F2 – Notificaciones por mail

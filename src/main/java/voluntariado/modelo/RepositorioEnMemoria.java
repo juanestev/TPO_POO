@@ -68,6 +68,14 @@ public class RepositorioEnMemoria {
         if (asignacion == null || asignacion.getEstado() != EstadoAsignacion.CONFIRMADA) {
             throw new DatosInvalidosException("La asignacion debe estar confirmada");
         }
+        validarNuevaAsignacion(asignacion);
+        asignacionesPorPunto.get(asignacion.getPunto().getCodigo()).add(asignacion);
+    }
+
+    public void validarNuevaAsignacion(Asignacion asignacion) {
+        if (asignacion == null) {
+            throw new DatosInvalidosException("La asignacion es obligatoria");
+        }
         String dni = asignacion.getVoluntario().getDni();
         String codigo = asignacion.getPunto().getCodigo();
         if (voluntariosPorDni.get(dni) != asignacion.getVoluntario()
@@ -79,7 +87,6 @@ public class RepositorioEnMemoria {
                 throw new DatosInvalidosException("El voluntario ya tiene una asignacion confirmada");
             }
         }
-        asignacionesPorPunto.get(codigo).add(asignacion);
     }
 
     public List<Asignacion> getAsignacionesPorPunto(String codigo) {
