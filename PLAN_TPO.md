@@ -123,12 +123,12 @@ Orden definido en la Actividad 02: primero F5 y F1 (base), luego F2 y F3.
 |----|-------|-------|---------|-----|
 | 4.1 | **Implementado, pendiente de revisión** — Enum `EstadoCobertura` (CUBIERTO, DEFICIT, SOBRANTE) | P3 | 1.4 | S |
 | 4.2 | **Implementado, pendiente de integración** — `CalculadorCobertura`: dotación requerida vs. presentes (usa asistencia) | P3 | 4.1, 3.15 | M |
-| 4.3 | Patrón **Observer**: el modelo notifica al panel ante cambio de asignación/check-in | Santino | 4.2 | M |
-| 4.4 | `ControladorCobertura` | Santino | 4.2, 4.3 | S |
+| 4.3 | **Implementado, pendiente de panel** — Observer notifica cambios de asignación y check-in/out al controlador de cobertura | Santino | 4.2 | M |
+| 4.4 | **Implementado, pendiente de panel** — `ControladorCobertura` recalcula presentes y estado y actualiza `VistaCobertura` | Santino | 4.2, 4.3 | S |
 | 4.5 | **Implementado, pendiente de revisión** — `EstrategiaReasignacion` (prioriza presentes y de zonas cercanas con sobrante) | P3 | 3.5, 4.2 | L |
 | 4.6 | **Implementado, pendiente de integración** — `MotorReasignacion` (reutiliza el motor de F1) | P3 | 4.5 | M |
 | 4.7 | **Implementado, pendiente de integración** — Aviso de cambio de punto con horario y QR nuevo (reusa F2); falta dispararlo al confirmar una reasignación | P4 | 4.6, 3.11 | S |
-| 4.8 | **Parcial** — Tests de cobertura y reasignación; falta Observer | P5 | 4.2–4.6 | M |
+| 4.8 | **Implementado, pendiente de revisión** — Tests de cobertura, Observer y reasignación | P5 | 4.2–4.6 | M |
 
 **Hito 4:** simulación en tests: un punto queda con déficit → se sugiere mover gente de zona cercana.
 
