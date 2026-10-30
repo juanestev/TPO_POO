@@ -83,8 +83,8 @@ Orden definido en la Actividad 02: primero F5 y F1 (base), luego F2 y F3.
 ### F5 – Roles y autenticación
 | ID | Tarea | Dueño | Depende | Tam |
 |----|-------|-------|---------|-----|
-| 3.1 | Modelo `Usuario` + enum `Rol` (ADMINISTRADOR, COORDINADOR, OPERADOR) + `UsuarioDAO` | P2 | 2.2 | M |
-| 3.2 | Módulo de seguridad: login, hash de contraseñas, sesión actual | P2 | 3.1 | M |
+| 3.1 | Modelo `Usuario` + enum `Rol` (ADMINISTRADOR, COORDINADOR, OPERADOR) + `UsuarioDAO` | Juan | 2.2 | M |
+| 3.2 | Módulo de seguridad: login, hash de contraseñas, sesión actual | Juan | 3.1 | M |
 | 3.3 | **Implementado, pendiente de integración** — Matriz de permisos (tabla de la Act. 02 §5.5) como código: `tienePermiso(rol, accion)` | P2 | 3.2 | M |
 | 3.4 | **Implementado, pendiente de revisión** — Tests de permisos por rol | P5 | 3.3 | S |
 
@@ -142,11 +142,11 @@ Orden definido en la Actividad 02: primero F5 y F1 (base), luego F2 y F3.
 | 5.2 | Ventana principal + navegación por rol (cada rol ve solo lo suyo) | Santino | 3.3, 5.1 | M |
 | 5.3 | Pantalla de Login | Santino | 3.2 | S |
 | 5.4 | Formularios de alta/baja/modificación de voluntarios + `ControladorVoluntarios` | Santino | 1.6, 2.3 | L |
-| 5.5 | Pantalla de alta/edición de puntos de control (con zonas cercanas) | P5 | 1.4, 2.4 | M |
+| 5.5 | Pantalla de alta/edición de puntos de control (con zonas cercanas) | Juan | 1.4, 2.4 | M |
 | 5.6 | Pantalla de asignación (sugerencias F1 + F6, botón confirmar) + `ControladorAsignacion` | P3 | 3.8, 4.6 | L |
-| 5.7 | Panel de cobertura (colores verde/rojo/amarillo, se actualiza solo) | P5 | 4.4 | L |
-| 5.8 | Pantalla del lector de QR / check-in | P4 | 3.16 | M |
-| 5.9 | Pantalla de gestión de usuarios y roles (admin) | P2 | 3.3 | M |
+| 5.7 | Panel de cobertura (colores verde/rojo/amarillo, se actualiza solo) | Juan | 4.4 | L |
+| 5.8 | Pantalla del lector de QR / check-in | Juan | 3.16 | M |
+| 5.9 | Pantalla de gestión de usuarios y roles (admin) | Juan | 3.3 | M |
 
 **Hito 5:** la app completa se usa desde la interfaz.
 
