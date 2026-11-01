@@ -12,6 +12,8 @@ import voluntariado.modelo.RepositorioEnMemoria;
 import voluntariado.modelo.Voluntario;
 import voluntariado.modelo.VoluntarioMedico;
 import voluntariado.modelo.VoluntarioSeguridad;
+import voluntariado.seguridad.Accion;
+import voluntariado.seguridad.Sesion;
 
 // Alta, baja y modificacion de voluntarios. La vista habla solo con esta clase: nunca con el DAO.
 // Cada operacion cambia la memoria y la base; si la base falla, se deshace lo de la memoria
@@ -22,13 +24,27 @@ public class ControladorVoluntarios {
 
     private final RepositorioEnMemoria repositorio;
     private final VoluntarioDAO dao;
+    private final Sesion sesion;
 
+    // Sin sesion no se controlan permisos (solo para pruebas); la app siempre usa el otro constructor.
     public ControladorVoluntarios(RepositorioEnMemoria repositorio, VoluntarioDAO dao) {
+        this(repositorio, dao, null);
+    }
+
+    // Con sesion: las operaciones que modifican datos exigen el permiso del rol (ademas de ocultar la pantalla).
+    public ControladorVoluntarios(RepositorioEnMemoria repositorio, VoluntarioDAO dao, Sesion sesion) {
         if (repositorio == null || dao == null) {
             throw new DatosInvalidosException("Se necesitan repositorio y DAO de voluntarios");
         }
         this.repositorio = repositorio;
         this.dao = dao;
+        this.sesion = sesion;
+    }
+
+    private void exigirPermiso() {
+        if (sesion != null) {
+            sesion.exigirPermiso(Accion.EDITAR_VOLUNTARIOS_Y_PUNTOS);
+        }
     }
 
     public List<Voluntario> listar() {
@@ -39,6 +55,7 @@ public class ControladorVoluntarios {
 
     public Voluntario alta(Tipo tipo, String dni, String nombre, String apellido, String telefono, String mail,
             Set<Habilidad> habilidades, List<Disponibilidad> disponibilidades) {
+        exigirPermiso();
         if (tipo == null) {
             throw new DatosInvalidosException("El tipo de voluntario es obligatorio");
         }
@@ -58,6 +75,7 @@ public class ControladorVoluntarios {
 
     public void modificar(String dni, String nombre, String apellido, String telefono, String mail,
             Set<Habilidad> habilidades, List<Disponibilidad> disponibilidades) {
+        exigirPermiso();
         Voluntario voluntario = repositorio.buscarVoluntario(dni);
         String nombreViejo = voluntario.getNombre();
         String apellidoViejo = voluntario.getApellido();
@@ -83,6 +101,7 @@ public class ControladorVoluntarios {
     }
 
     public void baja(String dni) {
+        exigirPermiso();
         Voluntario voluntario = repositorio.buscarVoluntario(dni);
         if (repositorio.estaAsignado(dni)) {
             throw new DatosInvalidosException("No se puede dar de baja: el voluntario tiene una asignacion confirmada");

@@ -12,6 +12,8 @@ import voluntariado.modelo.DatosInvalidosException;
 import voluntariado.modelo.ObservadorCobertura;
 import voluntariado.modelo.RegistroAsistencia;
 import voluntariado.modelo.RepositorioEnMemoria;
+import voluntariado.seguridad.Accion;
+import voluntariado.seguridad.Sesion;
 import voluntariado.servicios.CodigoQr;
 
 public class ControladorAsistencia {
@@ -21,18 +23,33 @@ public class ControladorAsistencia {
     private final Map<String, RegistroAsistencia> registrosPorQr = new HashMap<>();
     private final List<ObservadorCobertura> observadoresCobertura = new ArrayList<>();
 
+    private final Sesion sesion;
+
+    // Sin sesion no se controlan permisos (solo para pruebas); la app siempre usa el otro constructor.
     public ControladorAsistencia(RepositorioEnMemoria repositorio, AsistenciaDAO dao) {
+        this(repositorio, dao, null);
+    }
+
+    public ControladorAsistencia(RepositorioEnMemoria repositorio, AsistenciaDAO dao, Sesion sesion) {
         if (repositorio == null || dao == null) {
             throw new DatosInvalidosException("Se necesitan repositorio y DAO de asistencia");
         }
         this.repositorio = repositorio;
         this.dao = dao;
+        this.sesion = sesion;
         for (RegistroAsistencia registro : dao.listarTodas(repositorio)) {
             registrosPorQr.put(registro.getAsignacion().getCodigoQr(), registro);
         }
     }
 
+    private void exigirPermiso() {
+        if (sesion != null) {
+            sesion.exigirPermiso(Accion.REGISTRAR_ASISTENCIA);
+        }
+    }
+
     public RegistroAsistencia registrarEntradaManual(String codigo, LocalDateTime momento) {
+        exigirPermiso();
         String qr = CodigoQr.validarCodigoManual(codigo);
         RegistroAsistencia nuevo = copiarRegistro(qr);
         nuevo.registrarEntrada(qr, momento);
@@ -64,6 +81,7 @@ public class ControladorAsistencia {
     }
 
     public RegistroAsistencia registrarSalidaManual(String codigo, LocalDateTime momento) {
+        exigirPermiso();
         String qr = CodigoQr.validarCodigoManual(codigo);
         RegistroAsistencia nuevo = copiarRegistro(qr);
         nuevo.registrarSalida(qr, momento);

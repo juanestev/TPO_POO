@@ -5,19 +5,34 @@ import voluntariado.dao.PuntoDeControlDAO;
 import voluntariado.modelo.DatosInvalidosException;
 import voluntariado.modelo.PuntoDeControl;
 import voluntariado.modelo.RepositorioEnMemoria;
+import voluntariado.seguridad.Accion;
+import voluntariado.seguridad.Sesion;
 
 // Alta, baja y modificacion de puntos de control (misma idea que ControladorVoluntarios).
 public class ControladorPuntos {
 
     private final RepositorioEnMemoria repositorio;
     private final PuntoDeControlDAO dao;
+    private final Sesion sesion;
 
+    // Sin sesion no se controlan permisos (solo para pruebas); la app siempre usa el otro constructor.
     public ControladorPuntos(RepositorioEnMemoria repositorio, PuntoDeControlDAO dao) {
+        this(repositorio, dao, null);
+    }
+
+    public ControladorPuntos(RepositorioEnMemoria repositorio, PuntoDeControlDAO dao, Sesion sesion) {
         if (repositorio == null || dao == null) {
             throw new DatosInvalidosException("Se necesitan repositorio y DAO de puntos");
         }
         this.repositorio = repositorio;
         this.dao = dao;
+        this.sesion = sesion;
+    }
+
+    private void exigirPermiso() {
+        if (sesion != null) {
+            sesion.exigirPermiso(Accion.EDITAR_VOLUNTARIOS_Y_PUNTOS);
+        }
     }
 
     public List<PuntoDeControl> listar() {
@@ -25,6 +40,7 @@ public class ControladorPuntos {
     }
 
     public PuntoDeControl alta(String codigo, String zona, int dotacion, List<String> zonasCercanas) {
+        exigirPermiso();
         PuntoDeControl punto = new PuntoDeControl(codigo, zona, dotacion);
         for (String zonaCercana : zonasCercanas) {
             punto.agregarZonaCercana(zonaCercana);
@@ -40,6 +56,7 @@ public class ControladorPuntos {
     }
 
     public void modificar(String codigo, String zona, int dotacion, List<String> zonasCercanas) {
+        exigirPermiso();
         PuntoDeControl punto = repositorio.buscarPunto(codigo);
         String zonaVieja = punto.getZona();
         int dotacionVieja = punto.getDotacionRequerida();
@@ -54,6 +71,7 @@ public class ControladorPuntos {
     }
 
     public void baja(String codigo) {
+        exigirPermiso();
         PuntoDeControl punto = repositorio.buscarPunto(codigo);
         if (!repositorio.getAsignacionesPorPunto(codigo).isEmpty()) {
             throw new DatosInvalidosException("No se puede borrar: el punto tiene asignaciones confirmadas");

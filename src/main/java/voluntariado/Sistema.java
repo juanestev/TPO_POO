@@ -54,9 +54,9 @@ public class Sistema {
         UsuariosIniciales.cargarSiEstaVacia(autenticacion);
         notificaciones = new ServicioNotificaciones(notificador, new ColaMailsDAOSQLite(conexion));
 
-        voluntarios = new ControladorVoluntarios(repositorio, voluntarioDAO);
-        puntos = new ControladorPuntos(repositorio, puntoDAO);
-        asistencia = new ControladorAsistencia(repositorio, new AsistenciaDAOSQLite(conexion));
+        voluntarios = new ControladorVoluntarios(repositorio, voluntarioDAO, sesion);
+        puntos = new ControladorPuntos(repositorio, puntoDAO, sesion);
+        asistencia = new ControladorAsistencia(repositorio, new AsistenciaDAOSQLite(conexion), sesion);
         asignacion = new ControladorAsignacion(repositorio, asignacionDAO, asistencia, notificaciones,
                 new EstrategiaPorHabilidadYDisponibilidad(), sesion);
         usuarios = new ControladorUsuarios(autenticacion, usuarioDAO, sesion);
