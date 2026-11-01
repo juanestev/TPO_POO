@@ -64,6 +64,16 @@ CREATE TABLE IF NOT EXISTS asistencia (
     CHECK (salida IS NULL OR (entrada IS NOT NULL AND salida >= entrada))
 );
 
+-- Cola de avisos por mail que no se pudieron enviar (sin red). Sobrevive al cierre de la app (tarjeta 3.12).
+-- "orden" conserva el orden de llegada; el QR se guarda como imagen PNG (BLOB).
+CREATE TABLE IF NOT EXISTS mail_pendiente (
+    orden         INTEGER PRIMARY KEY AUTOINCREMENT,
+    destinatario  TEXT NOT NULL,
+    asunto        TEXT NOT NULL,
+    cuerpo        TEXT NOT NULL,
+    qr_png        BLOB
+);
+
 -- Usuarios del sistema (lo usan las tarjetas 3.1 y 3.2). El rol se guarda con el nombre del enum Rol.
 -- Nunca se guarda la contrasena: solo su hash y la sal con la que se calculo.
 CREATE TABLE IF NOT EXISTS usuario (

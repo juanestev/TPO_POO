@@ -83,9 +83,9 @@ Orden definido en la Actividad 02: primero F5 y F1 (base), luego F2 y F3.
 ### F5 – Roles y autenticación
 | ID | Tarea | Dueño | Depende | Tam |
 |----|-------|-------|---------|-----|
-| 3.1 | Modelo `Usuario` + enum `Rol` (ADMINISTRADOR, COORDINADOR, OPERADOR) + `UsuarioDAO` | Juan | 2.2 | M |
-| 3.2 | Módulo de seguridad: login, hash de contraseñas, sesión actual | Juan | 3.1 | M |
-| 3.3 | **Implementado, pendiente de integración** — Matriz de permisos (tabla de la Act. 02 §5.5) como código: `tienePermiso(rol, accion)` | P2 | 3.2 | M |
+| 3.1 | **Implementado, pendiente de revisión** — Modelo `Usuario` + enum `Rol` (ADMINISTRADOR, COORDINADOR, OPERADOR) + `UsuarioDAO` | Juan | 2.2 | M |
+| 3.2 | **Implementado, pendiente de revisión** — Módulo de seguridad: login, hash de contraseñas, sesión actual | Juan | 3.1 | M |
+| 3.3 | **Implementado e integrado en la interfaz, pendiente de revisión** — Matriz de permisos (tabla de la Act. 02 §5.5) como código: `tienePermiso(rol, accion)` | P2 | 3.2 | M |
 | 3.4 | **Implementado, pendiente de revisión** — Tests de permisos por rol | P5 | 3.3 | S |
 
 ### F1 – Asignación automática sugerida
@@ -94,24 +94,24 @@ Orden definido en la Actividad 02: primero F5 y F1 (base), luego F2 y F3.
 | 3.5 | **Implementado, pendiente de revisión** — Interfaz `EstrategiaAsignacion` (patrón **Strategy**) | P3 | 1.5 | S |
 | 3.6 | **Implementado, pendiente de revisión** — Estrategia por habilidad + disponibilidad (filtra el HashMap) | P3 | 3.5, 1.6 | L |
 | 3.7 | **Implementado, pendiente de revisión** — `MotorAsignacion`: genera sugerencias para un punto, sin duplicar voluntarios | P3 | 3.6 | M |
-| 3.8 | **Implementado, pendiente de integración con la interfaz** — `ServicioAsignaciones` confirma la sugerencia, conserva el QR y guarda vía DAO antes de actualizar memoria | P3 | 3.7, 2.4 | M |
+| 3.8 | **Implementado e integrado en la interfaz, pendiente de revisión** — `ServicioAsignaciones` confirma la sugerencia, conserva el QR y guarda vía DAO antes de actualizar memoria | P3 | 3.7, 2.4 | M |
 | 3.9 | **Implementado, pendiente de revisión** — Tests del motor (casos: faltan voluntarios, sobran, ninguno disponible) | P5 | 3.7 | M |
 
 ### F2 – Notificaciones por mail
 | ID | Tarea | Dueño | Depende | Tam |
 |----|-------|-------|---------|-----|
 | 3.10 | **Implementado, pendiente de prueba SMTP real** — Interfaz `NotificadorMail` + adaptador SMTP (**Adapter**) | P4 | 0.3 | M |
-| 3.11 | **Implementado, pendiente de integración** — `ServicioNotificaciones`: arma el mail (puesto, horario, punto de encuentro, QR) | P4 | 3.10, 3.8 | M |
-| 3.12 | **Parcial** — Cola de reintentos en memoria; falta conservarla al cerrar la app | P4 | 3.11 | M |
+| 3.11 | **Implementado e integrado en la interfaz, pendiente de revisión** — `ServicioNotificaciones`: arma el mail (puesto, horario, punto de encuentro, QR) | P4 | 3.10, 3.8 | M |
+| 3.12 | **Implementado, pendiente de revisión** — Cola de reintentos si falla la red; se guarda en la tabla `mail_pendiente` (`ColaMailsDAO`) y se recupera al abrir la app | P4 | 3.11 | M |
 | 3.13 | **Implementado, pendiente de revisión** — Adaptador "falso" (consola/log) para tests y demo sin internet | P4 | 3.10 | S |
 
 ### F3 – Check-in / check-out con QR
 | ID | Tarea | Dueño | Depende | Tam |
 |----|-------|-------|---------|-----|
 | 3.14 | **Implementado, pendiente de revisión** — Generación del QR personal (ZXing) para incluir en el mail | P4 | 3.11 | M |
-| 3.15 | **Implementado, pendiente de integración con la interfaz** — `RegistroAsistencia` y `AsistenciaDAO` guardan y recuperan check-in/out por asignación | P3 | 3.8, 2.2 | M |
-| 3.16 | **Implementado con imagen y código manual, pendiente de interfaz** — lectura del QR conectada al check-in; no hay captura por webcam | P4 | 3.14 | L |
-| 3.17 | **Implementado, pendiente de interfaz** — `ControladorAsistencia` carga registros, valida QR y persiste entrada/salida | Santino | 3.15 | S |
+| 3.15 | **Implementado e integrado en la interfaz, pendiente de revisión** — `RegistroAsistencia` y `AsistenciaDAO` guardan y recuperan check-in/out por asignación | P3 | 3.8, 2.2 | M |
+| 3.16 | **Implementado e integrado (imagen y código manual, sin webcam), pendiente de revisión** — lectura del QR conectada al check-in; no hay captura por webcam | P4 | 3.14 | L |
+| 3.17 | **Implementado e integrado en la interfaz, pendiente de revisión** — `ControladorAsistencia` carga registros, valida QR y persiste entrada/salida | Santino | 3.15 | S |
 
 **Hito 3:** desde consola/tests: login → sugerir → confirmar → mail (o log) → check-in.
 
@@ -122,12 +122,12 @@ Orden definido en la Actividad 02: primero F5 y F1 (base), luego F2 y F3.
 | ID | Tarea | Dueño | Depende | Tam |
 |----|-------|-------|---------|-----|
 | 4.1 | **Implementado, pendiente de revisión** — Enum `EstadoCobertura` (CUBIERTO, DEFICIT, SOBRANTE) | P3 | 1.4 | S |
-| 4.2 | **Implementado, pendiente de integración** — `CalculadorCobertura`: dotación requerida vs. presentes (usa asistencia) | P3 | 4.1, 3.15 | M |
-| 4.3 | **Implementado, pendiente de panel** — Observer notifica cambios de asignación y check-in/out al controlador de cobertura | Santino | 4.2 | M |
-| 4.4 | **Implementado, pendiente de panel** — `ControladorCobertura` recalcula presentes y estado y actualiza `VistaCobertura` | Santino | 4.2, 4.3 | S |
+| 4.2 | **Implementado e integrado en la interfaz, pendiente de revisión** — `CalculadorCobertura`: dotación requerida vs. presentes (usa asistencia) | P3 | 4.1, 3.15 | M |
+| 4.3 | **Implementado e integrado en la interfaz, pendiente de revisión** — Observer notifica cambios de asignación y check-in/out al controlador de cobertura | Santino | 4.2 | M |
+| 4.4 | **Implementado e integrado en la interfaz, pendiente de revisión** — `ControladorCobertura` recalcula presentes y estado y actualiza `VistaCobertura` | Santino | 4.2, 4.3 | S |
 | 4.5 | **Implementado, pendiente de revisión** — `EstrategiaReasignacion` (prioriza presentes y de zonas cercanas con sobrante) | P3 | 3.5, 4.2 | L |
-| 4.6 | **Implementado, pendiente de integración** — `MotorReasignacion` (reutiliza el motor de F1) | P3 | 4.5 | M |
-| 4.7 | **Implementado, pendiente de integración** — Aviso de cambio de punto con horario y QR nuevo (reusa F2); falta dispararlo al confirmar una reasignación | P4 | 4.6, 3.11 | S |
+| 4.6 | **Implementado e integrado en la interfaz, pendiente de revisión** — `MotorReasignacion` (reutiliza el motor de F1) | P3 | 4.5 | M |
+| 4.7 | **Implementado e integrado (se dispara al confirmar una reasignación), pendiente de revisión** — Aviso de cambio de punto con horario y QR nuevo (reusa F2); lo dispara `ControladorAsignacion` al confirmar una reasignación | P4 | 4.6, 3.11 | S |
 | 4.8 | **Implementado, pendiente de revisión** — Tests de cobertura, Observer y reasignación | P5 | 4.2–4.6 | M |
 
 **Hito 4:** simulación en tests: un punto queda con déficit → se sugiere mover gente de zona cercana.
@@ -139,14 +139,14 @@ Orden definido en la Actividad 02: primero F5 y F1 (base), luego F2 y F3.
 | ID | Tarea | Dueño | Depende | Tam |
 |----|-------|-------|---------|-----|
 | 5.1 | Mockups/bocetos en papel o Figma de todas las pantallas (acordar entre todos) | P4 + Santino | 0.4 | M |
-| 5.2 | Ventana principal + navegación por rol (cada rol ve solo lo suyo) | Santino | 3.3, 5.1 | M |
-| 5.3 | Pantalla de Login | Santino | 3.2 | S |
-| 5.4 | Formularios de alta/baja/modificación de voluntarios + `ControladorVoluntarios` | Santino | 1.6, 2.3 | L |
-| 5.5 | Pantalla de alta/edición de puntos de control (con zonas cercanas) | Juan | 1.4, 2.4 | M |
-| 5.6 | Pantalla de asignación (sugerencias F1 + F6, botón confirmar) + `ControladorAsignacion` | P3 | 3.8, 4.6 | L |
-| 5.7 | Panel de cobertura (colores verde/rojo/amarillo, se actualiza solo) | Juan | 4.4 | L |
-| 5.8 | Pantalla del lector de QR / check-in | Juan | 3.16 | M |
-| 5.9 | Pantalla de gestión de usuarios y roles (admin) | Juan | 3.3 | M |
+| 5.2 | **Implementado, pendiente de revisión** — Ventana principal + navegación por rol (cada rol ve solo lo suyo) | Santino | 3.3, 5.1 | M |
+| 5.3 | **Implementado, pendiente de revisión** — Pantalla de Login | Santino | 3.2 | S |
+| 5.4 | **Implementado, pendiente de revisión** — Formularios de alta/baja/modificación de voluntarios + `ControladorVoluntarios` | Santino | 1.6, 2.3 | L |
+| 5.5 | **Implementado, pendiente de revisión** — Pantalla de alta/edición de puntos de control (con zonas cercanas) | Juan | 1.4, 2.4 | M |
+| 5.6 | **Implementado, pendiente de revisión** — Pantalla de asignación (sugerencias F1 + F6, botón confirmar) + `ControladorAsignacion` | P3 | 3.8, 4.6 | L |
+| 5.7 | **Implementado, pendiente de revisión** — Panel de cobertura (colores verde/rojo/amarillo, se actualiza solo) | Juan | 4.4 | L |
+| 5.8 | **Implementado, pendiente de revisión** — Pantalla del lector de QR / check-in | Juan | 3.16 | M |
+| 5.9 | **Implementado, pendiente de revisión** — Pantalla de gestión de usuarios y roles (admin) | Juan | 3.3 | M |
 
 **Hito 5:** la app completa se usa desde la interfaz.
 
@@ -156,15 +156,15 @@ Orden definido en la Actividad 02: primero F5 y F1 (base), luego F2 y F3.
 
 | ID | Tarea | Dueño | Depende | Tam |
 |----|-------|-------|---------|-----|
-| 6.1 | **Parcial** — Demo de consola con SQLite temporal: asigna, confirma, simula avisos, lee QR y registra asistencia; falta prueba integral desde la interfaz | Todos | 5.* | M |
-| 6.2 | Prueba integral de **Flujo B** (día del evento y emergencia) | Todos | 5.* | M |
-| 6.3 | Revisión de seguridad: permisos por rol, datos sensibles privados, Ley 25.326 | P2 | 6.1 | S |
-| 6.4 | Corrección de bugs encontrados (tarjetas nuevas por cada bug) | Todos | 6.1, 6.2 | L |
-| 6.5 | Verificar que el código respete los 4 pilares y los patrones (Strategy, Observer, Adapter, DAO) | P5 | 6.4 | M |
-| 6.6 | Manual de usuario / README (cómo instalar y ejecutar) | P5 | 6.4 | M |
-| 6.7 | Informe final / documentación para la cátedra (actualizar diagramas con lo realmente implementado) | Santino | 6.4 | M |
-| 6.8 | Guion y ensayo de la demo / presentación | Todos | 6.4 | M |
-| 6.9 | Entrega (empaquetar, subir, verificar que corre en otra PC) | Santino | 6.6–6.8 | S |
+| 6.1 | **Implementado (test integral automático), falta prueba manual del grupo** — `FlujoIntegralTest` recorre login, sugerencia, confirmación, aviso, lectura de QR, check-in y cobertura con SQLite real; además `DemoFlujo` por consola | Todos | 5.* | M |
+| 6.2 | **Implementado (test integral automático), falta prueba manual del grupo** — Prueba integral de **Flujo B** (día del evento y emergencia) | Todos | 5.* | M |
+| 6.3 | **Implementado, pendiente de revisión (ver docs/seguridad.md)** — Revisión de seguridad: permisos por rol, datos sensibles privados, Ley 25.326 | P2 | 6.1 | S |
+| 6.4 | **Sin bugs abiertos conocidos al 01/11; se agregan tarjetas si aparecen** — Corrección de bugs encontrados (tarjetas nuevas por cada bug) | Todos | 6.1, 6.2 | L |
+| 6.5 | **Implementado, pendiente de revisión (ver docs/arquitectura-y-patrones.md)** — Verificar que el código respete los 4 pilares y los patrones (Strategy, Observer, Adapter, DAO) | P5 | 6.4 | M |
+| 6.6 | **Implementado en el README, pendiente de revisión** — Manual de usuario / README (cómo instalar y ejecutar) | P5 | 6.4 | M |
+| 6.7 | **Parcial: diagramas y arquitectura actualizados; falta el informe final para la cátedra** — Informe final / documentación para la cátedra (actualizar diagramas con lo realmente implementado) | Santino | 6.4 | M |
+| 6.8 | **Parcial: guion escrito en docs/guion-demo.md; falta ensayar** — Guion y ensayo de la demo / presentación | Todos | 6.4 | M |
+| 6.9 | **Parcial: jar ejecutable con `mvn package`; falta verificar que corre en otra PC** — Entrega (empaquetar, subir, verificar que corre en otra PC) | Santino | 6.6–6.8 | S |
 
 ---
 

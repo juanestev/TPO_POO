@@ -74,6 +74,51 @@ public class RepositorioEnMemoria {
         notificarCobertura(asignacion.getPunto());
     }
 
+    public List<PuntoDeControl> getPuntos() {
+        List<PuntoDeControl> puntos = new ArrayList<>(puntosPorCodigo.values());
+        puntos.sort(java.util.Comparator.comparing(PuntoDeControl::getCodigo));
+        return List.copyOf(puntos);
+    }
+
+    // No se puede dar de baja a un voluntario con asignacion: se perderia el historial (igual que en la base).
+    public void quitarVoluntario(String dni) {
+        buscarVoluntario(dni);
+        if (estaAsignado(dni)) {
+            throw new DatosInvalidosException("El voluntario tiene una asignacion confirmada");
+        }
+        voluntariosPorDni.remove(dni);
+    }
+
+    public void quitarPunto(String codigo) {
+        buscarPunto(codigo);
+        if (!asignacionesPorPunto.get(codigo).isEmpty()) {
+            throw new DatosInvalidosException("El punto tiene asignaciones confirmadas");
+        }
+        puntosPorCodigo.remove(codigo);
+        asignacionesPorPunto.remove(codigo);
+    }
+
+    // Usado al reasignar: el voluntario deja su punto y la cobertura de ese punto se recalcula.
+    public void quitarAsignacion(Asignacion asignacion) {
+        if (asignacion == null || !asignacionesPorPunto.getOrDefault(asignacion.getPunto().getCodigo(), List.of())
+                .contains(asignacion)) {
+            throw new DatosInvalidosException("La asignacion no esta registrada");
+        }
+        asignacionesPorPunto.get(asignacion.getPunto().getCodigo()).remove(asignacion);
+        notificarCobertura(asignacion.getPunto());
+    }
+
+    public Asignacion buscarAsignacionDeVoluntario(String dni) {
+        for (List<Asignacion> asignaciones : asignacionesPorPunto.values()) {
+            for (Asignacion asignacion : asignaciones) {
+                if (asignacion.getVoluntario().getDni().equals(dni)) {
+                    return asignacion;
+                }
+            }
+        }
+        throw new DatosInvalidosException("El voluntario no tiene una asignacion confirmada");
+    }
+
     public void agregarObservadorCobertura(ObservadorCobertura observador) {
         if (observador == null) {
             throw new DatosInvalidosException("El observador es obligatorio");

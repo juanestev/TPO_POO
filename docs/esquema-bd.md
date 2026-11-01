@@ -50,6 +50,13 @@ erDiagram
         TEXT entrada "fecha y hora ISO"
         TEXT salida "fecha y hora ISO"
     }
+    mail_pendiente {
+        INTEGER orden PK "orden de llegada"
+        TEXT destinatario
+        TEXT asunto
+        TEXT cuerpo
+        BLOB qr_png "imagen del QR (puede ser nula)"
+    }
     usuario {
         TEXT nombre_usuario PK
         TEXT hash_clave
@@ -71,15 +78,15 @@ erDiagram
 | Enums de Java | Texto + `CHECK` con los valores validos | Se lee facil en la base y no se rompe si cambia el orden del enum (guardar el `ordinal()` si se romperia). |
 | Fechas y horas | Texto ISO-8601 (`08:00`, `2026-10-26T08:00`) | SQLite no tiene tipo fecha; en ISO el orden alfabetico coincide con el cronologico, asi funcionan los `CHECK` y los `ORDER BY`. |
 | Roles | Columna `rol` con `CHECK`, sin tabla aparte | Los roles son fijos (enum `Rol`) y los permisos viven en codigo (`Permisos`). Una tabla de roles no agregaria informacion. |
-| Contrasenas | Solo hash + sal | Nunca se guarda la contrasena en texto plano (Ley 25.326). Lo implementa la tarjeta 3.2. |
+| Contrasenas | Solo hash + sal | Nunca se guarda la contrasena en texto plano (Ley 25.326). El hash es PBKDF2-SHA256 con una sal por usuario (`ServicioClaves`). |
 | Claves foraneas | `PRAGMA foreign_keys = ON` en cada conexion | SQLite las trae apagadas por defecto; sin esto las FK no se controlan. |
 
 ## Clases del paquete `dao`
 
 - `ConexionBD`: abre conexiones y crea el esquema.
-- `VoluntarioDAO`, `PuntoDeControlDAO`, `AsignacionDAO`: interfaces (patron DAO). Sus implementaciones `...SQLite` son las unicas clases que conocen SQL.
+- `VoluntarioDAO`, `PuntoDeControlDAO`, `AsignacionDAO`, `AsistenciaDAO`, `UsuarioDAO`, `ColaMailsDAO`: interfaces (patron DAO). Sus implementaciones `...SQLite` son las unicas clases que conocen SQL.
 - `CargaInicial`: al abrir la app pasa la base al `RepositorioEnMemoria`. Solo las asignaciones confirmadas entran al repositorio.
 - `DatosDePrueba`: 5 puntos y 30 voluntarios ficticios; se cargan solo si la base esta vacia.
 - `PersistenciaException`: envuelve los errores de SQL para que las otras capas no dependan de JDBC.
 
-Las tablas `asistencia` y `usuario` ya estan creadas, pero sus DAO son de otras tarjetas (3.15 y 3.1).
+La tabla `mail_pendiente` guarda los avisos que no se pudieron enviar por falta de red (tarjeta 3.12): se reescribe completa cada vez que cambia la cola y se recupera al abrir la app.
