@@ -56,6 +56,11 @@ public class ControladorAsistencia {
         return nuevo;
     }
 
+    // Usado al reasignar: la asignacion vieja desaparece, asi que su registro de asistencia tambien.
+    public void olvidarRegistro(String codigoQr) {
+        registrosPorQr.remove(codigoQr);
+    }
+
     public List<RegistroAsistencia> getRegistros() {
         return List.copyOf(registrosPorQr.values());
     }
