@@ -3,6 +3,7 @@ package voluntariado.vista;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.FlowLayout;
+import java.awt.GridLayout;
 import java.time.DayOfWeek;
 import java.util.ArrayList;
 import java.util.List;
@@ -60,7 +61,8 @@ public class PanelAsignacion extends JPanel implements Refrescable {
         setLayout(new BorderLayout(8, 8));
         setBorder(BorderFactory.createEmptyBorder(8, 8, 8, 8));
 
-        JPanel filtros = new JPanel(new FlowLayout(FlowLayout.LEFT, 6, 4));
+        // Dos filas para que nada quede cortado si la ventana es angosta.
+        JPanel filtros = new JPanel(new GridLayout(2, 1));
         filtros.setBorder(BorderFactory.createTitledBorder("Que necesitamos"));
         punto.setRenderer(new DefaultListCellRenderer() {
             @Override
@@ -72,23 +74,27 @@ public class PanelAsignacion extends JPanel implements Refrescable {
             }
         });
         punto.addActionListener(e -> actualizarEstado());
-        filtros.add(new JLabel("Punto"));
-        filtros.add(punto);
-        filtros.add(new JLabel("Habilidad"));
-        filtros.add(habilidad);
-        filtros.add(new JLabel("Turno"));
-        filtros.add(dia);
-        filtros.add(desde);
-        filtros.add(new JLabel("a"));
-        filtros.add(hasta);
-        filtros.add(new JLabel("Punto de encuentro"));
-        filtros.add(encuentro);
+        JPanel primeraFila = new JPanel(new FlowLayout(FlowLayout.LEFT, 6, 4));
+        primeraFila.add(new JLabel("Punto"));
+        primeraFila.add(punto);
+        primeraFila.add(new JLabel("Habilidad"));
+        primeraFila.add(habilidad);
+        primeraFila.add(new JLabel("Turno"));
+        primeraFila.add(dia);
+        primeraFila.add(desde);
+        primeraFila.add(new JLabel("a"));
+        primeraFila.add(hasta);
+        JPanel segundaFila = new JPanel(new FlowLayout(FlowLayout.LEFT, 6, 4));
+        segundaFila.add(new JLabel("Punto de encuentro"));
+        segundaFila.add(encuentro);
         JButton sugerir = new JButton("Sugerir asignacion");
         JButton reasignar = new JButton("Sugerir reasignacion (emergencia)");
         sugerir.addActionListener(e -> sugerir(false));
         reasignar.addActionListener(e -> sugerir(true));
-        filtros.add(sugerir);
-        filtros.add(reasignar);
+        segundaFila.add(sugerir);
+        segundaFila.add(reasignar);
+        filtros.add(primeraFila);
+        filtros.add(segundaFila);
 
         JPanel arriba = new JPanel(new BorderLayout());
         arriba.add(filtros, BorderLayout.CENTER);

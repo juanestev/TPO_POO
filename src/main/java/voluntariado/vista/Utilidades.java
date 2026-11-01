@@ -85,6 +85,9 @@ final class Utilidades {
     }
 
     static String texto(Habilidad habilidad) {
+        if (habilidad == Habilidad.RCP) {
+            return "RCP";
+        }
         String nombre = habilidad.name().replace('_', ' ').toLowerCase(ES);
         return Character.toUpperCase(nombre.charAt(0)) + nombre.substring(1);
     }
