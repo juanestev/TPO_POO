@@ -3,8 +3,10 @@ package voluntariado.servicios;
 import java.time.format.DateTimeFormatter;
 import java.time.format.TextStyle;
 import java.util.ArrayDeque;
+import java.util.List;
 import java.util.Locale;
 import java.util.Queue;
+import voluntariado.dao.ColaMailsDAO;
 import voluntariado.modelo.Asignacion;
 import voluntariado.modelo.Disponibilidad;
 import voluntariado.modelo.EstadoAsignacion;
@@ -13,12 +15,23 @@ public class ServicioNotificaciones {
 
     private final NotificadorMail notificador;
     private final Queue<MensajeMail> pendientes = new ArrayDeque<>();
+    private final ColaMailsDAO cola;
 
+    // Sin DAO: la cola vive solo mientras la app esta abierta (sirve para tests y demos).
     public ServicioNotificaciones(NotificadorMail notificador) {
+        this(notificador, null);
+    }
+
+    // Con DAO: los avisos pendientes se guardan en la base y se recuperan al abrir la app.
+    public ServicioNotificaciones(NotificadorMail notificador, ColaMailsDAO cola) {
         if (notificador == null) {
             throw new IllegalArgumentException("El notificador es obligatorio");
         }
         this.notificador = notificador;
+        this.cola = cola;
+        if (cola != null) {
+            pendientes.addAll(cola.listar());
+        }
     }
 
     public MensajeMail crearAviso(Asignacion asignacion, Disponibilidad turno, String puntoEncuentro) {
@@ -62,6 +75,7 @@ public class ServicioNotificaciones {
             notificador.enviar(mensaje);
         } catch (IllegalStateException falloDeRed) {
             pendientes.add(mensaje);
+            guardarCola();
         }
     }
 
@@ -74,6 +88,14 @@ public class ServicioNotificaciones {
             } catch (IllegalStateException falloDeRed) {
                 pendientes.add(mensaje);
             }
+        }
+        guardarCola();
+    }
+
+    // Deja la base igual a la cola en memoria (es chica, asi que se reescribe entera).
+    private void guardarCola() {
+        if (cola != null) {
+            cola.reemplazarTodos(List.copyOf(pendientes));
         }
     }
 

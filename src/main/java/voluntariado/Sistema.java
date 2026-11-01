@@ -9,6 +9,7 @@ import voluntariado.controlador.ControladorVoluntarios;
 import voluntariado.dao.AsignacionDAOSQLite;
 import voluntariado.dao.AsistenciaDAOSQLite;
 import voluntariado.dao.CargaInicial;
+import voluntariado.dao.ColaMailsDAOSQLite;
 import voluntariado.dao.ConexionBD;
 import voluntariado.dao.DatosDePrueba;
 import voluntariado.dao.PuntoDeControlDAOSQLite;
@@ -51,7 +52,7 @@ public class Sistema {
 
         autenticacion = new ServicioAutenticacion(usuarioDAO, new ServicioClaves());
         UsuariosIniciales.cargarSiEstaVacia(autenticacion);
-        notificaciones = new ServicioNotificaciones(notificador);
+        notificaciones = new ServicioNotificaciones(notificador, new ColaMailsDAOSQLite(conexion));
 
         voluntarios = new ControladorVoluntarios(repositorio, voluntarioDAO);
         puntos = new ControladorPuntos(repositorio, puntoDAO);
