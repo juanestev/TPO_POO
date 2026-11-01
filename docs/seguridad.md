@@ -38,4 +38,4 @@ Son decisiones de alcance de un trabajo universitario; conviene decirlas si se p
 4. **El bloqueo por intentos fallidos esta solo en la pantalla**, no en el servicio de autenticacion ni persistido.
 5. **Las claves de prueba** (`admin`, `coordinador`, `operador`) estan documentadas en el README y deben cambiarse en un uso real.
 6. **El envio por SMTP real no fue probado contra un servidor** (la integracion esta implementada y se activa por variables de entorno; el resto del sistema se probo con el notificador simulado).
-7. **La baja de un voluntario es fisica** (se borra de la base), no un borrado logico.
+7. **La baja de un voluntario es fisica** (se borra de la tabla `voluntario`), no un borrado logico. El historial de reasignaciones conserva su DNI y puesto anterior; falta definir una politica de retencion y supresion de esos registros.

@@ -59,6 +59,10 @@ public class VentanaLogin extends JFrame {
     }
 
     void ingresar() {
+        // El campo de clave tambien llama a este metodo al pulsar Enter.
+        if (!ingresar.isEnabled()) {
+            return;
+        }
         try {
             Usuario encontrado = sistema.getAutenticacion().iniciarSesion(usuario.getText(),
                     new String(clave.getPassword()));

@@ -50,6 +50,14 @@ erDiagram
         TEXT entrada "fecha y hora ISO"
         TEXT salida "fecha y hora ISO"
     }
+    asignacion_historial {
+        TEXT codigo_qr PK
+        TEXT dni
+        TEXT codigo_punto
+        TEXT entrada "fecha y hora ISO, puede faltar"
+        TEXT salida "fecha y hora ISO, puede faltar"
+        TEXT fecha_cambio "fecha y hora de reasignacion"
+    }
     mail_pendiente {
         INTEGER orden PK "orden de llegada"
         TEXT destinatario
@@ -74,6 +82,7 @@ erDiagram
 | Habilidades, disponibilidades, zonas cercanas | Tablas hijas con `ON DELETE CASCADE` | Son listas dentro del objeto: si se borra el voluntario o el punto, no tienen sentido solas. |
 | Asignaciones | FK con `ON DELETE RESTRICT` | No se puede borrar un voluntario o un punto con asignaciones: se perderia la historia y los QR enviados. |
 | Una sola asignacion confirmada por voluntario | Indice unico parcial `WHERE estado = 'CONFIRMADA'` | Es la misma regla que valida `RepositorioEnMemoria`, pero ahora tambien la garantiza la base. Las sugeridas si pueden repetirse. |
+| Historial de reasignaciones | Copia del puesto y su asistencia en `asignacion_historial` antes de reemplazar la asignacion activa | El cambio, la copia y el borrado se hacen en una transaccion. Si falla la nueva asignacion, se revierte todo. El historial no tiene FK al voluntario o al punto para conservar los datos aunque se den de baja. `fecha_cambio` indica cuando termino el puesto anterior, sin inventar un check-out. |
 | Codigo QR | Es la PK de `asignacion` | Ya es unico (UUID) y es lo que el voluntario presenta en el check-in: buscar por QR es la consulta principal. |
 | Enums de Java | Texto + `CHECK` con los valores validos | Se lee facil en la base y no se rompe si cambia el orden del enum (guardar el `ordinal()` si se romperia). |
 | Fechas y horas | Texto ISO-8601 (`08:00`, `2026-10-26T08:00`) | SQLite no tiene tipo fecha; en ISO el orden alfabetico coincide con el cronologico, asi funcionan los `CHECK` y los `ORDER BY`. |
