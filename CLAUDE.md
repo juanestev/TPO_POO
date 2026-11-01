@@ -66,11 +66,13 @@ Datos en memoria: `HashMap<DNI, Voluntario>` para búsqueda instantánea + `Arra
 - Git: una rama por tarjeta (`feature/1.1-persona`), Pull Request revisado por otra persona, `main` siempre compila.
 
 ## 6. Estado actual
-- Fase 1: modelo base, repositorio en memoria, tests y UML implementados; las tarjetas nuevas esperan revisión de otra persona.
-- Fase 2 (persistencia SQLite) implementada en `dao/`: esquema en `src/main/resources/db/schema.sql`, DAOs de voluntarios, puntos, asignaciones y asistencia, carga inicial y datos de prueba (ver `docs/esquema-bd.md`). Falta `UsuarioDAO` (3.1); su tabla ya existe.
-- Hay sugerencias y confirmación persistida de asignaciones, check-in/out persistido, reasignación sugerida, cobertura, matriz de permisos, mail con QR y lector QR desde imagen/código manual. Ver estados por tarjeta en `PLAN_TPO.md`.
-- `Main` sigue siendo una ventana de prueba. Al iniciar carga la base en `RepositorioEnMemoria`. `DemoFlujo` muestra el recorrido completo con SQLite temporal y mails simulados. Faltan integración de pantallas y la cola persistente de mails.
-- Próximo paso: integrar estos componentes con la persistencia y la interfaz, y revisar las tarjetas implementadas antes de marcarlas `Hecho`.
+- Las seis funcionalidades (F1 a F6) están implementadas con interfaz Swing, SQLite y tests (JUnit 5, todos pasando). `Sistema` arma todas las piezas y `Main` abre `VentanaLogin`.
+- Seguridad (F5): `Usuario`, `UsuarioDAO`, hash PBKDF2 con sal (`ServicioClaves`), `ServicioAutenticacion`, `Sesion`, matriz `Permisos`. Los permisos se exigen en la ventana (qué pestañas ve cada rol) **y** en los controladores. Usuarios de prueba (admin, coordinador, operador) en el README.
+- Pantallas en `vista/`: login, ventana principal por rol, voluntarios, puntos, asignación (F1 + reasignación F6), check-in/out con QR, cobertura (Observer) y usuarios.
+- La cola de mails pendientes se guarda en SQLite (`mail_pendiente`). Por defecto los mails se simulan; el SMTP real se activa con variables de entorno y **no se probó contra un servidor**.
+- Empaquetado: `./mvnw package` genera `target/voluntariado.jar` ejecutable. Documentación para la cátedra en `docs/` (arquitectura y patrones, seguridad, guion de demo, esquema de BD, UML).
+- Pendiente de personas, no de código: revisión cruzada de las tarjetas ("pendiente de revisión" en `PLAN_TPO.md`), ensayo de la demo, verificar que corre en otra PC y el informe final para la cátedra. Límites conocidos en `docs/seguridad.md`.
+- Si cambia el JDK: el proyecto exige Java 21 o superior para compilar (en la PC de Juan, `JAVA_HOME` apunta al 17; el JDK 25 está en `C:\Program Files\Java\jdk-25.0.2`).
 
 ## 7. Material de referencia de la materia
 Ejemplos de clase del usuario (UVA 4, 5, 6 – biblioteca con Swing, excepciones y archivos de texto) están en `C:\Users\jmestevez\Documents\POO\` (`uva_4.zip`, `uva_5.zip`, `uva6.zip`). Consultalos para mantener el mismo estilo.
