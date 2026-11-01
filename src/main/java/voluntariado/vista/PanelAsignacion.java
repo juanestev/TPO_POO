@@ -2,6 +2,7 @@ package voluntariado.vista;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.time.DayOfWeek;
@@ -14,6 +15,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -22,6 +24,7 @@ import voluntariado.controlador.ControladorAsignacion;
 import voluntariado.controlador.ControladorAsignacion.Resultado;
 import voluntariado.controlador.ControladorPuntos;
 import voluntariado.modelo.Asignacion;
+import voluntariado.modelo.AsignacionHistorica;
 import voluntariado.modelo.Disponibilidad;
 import voluntariado.modelo.Habilidad;
 import voluntariado.modelo.PuntoDeControl;
@@ -103,9 +106,12 @@ public class PanelAsignacion extends JPanel implements Refrescable {
         add(new JScrollPane(tabla), BorderLayout.CENTER);
 
         JPanel abajo = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        JButton historial = new JButton("Ver historial");
+        historial.addActionListener(e -> mostrarHistorial());
         JButton confirmar = new JButton("Confirmar seleccionadas (o todas)");
         confirmar.addActionListener(e -> confirmar());
         abajo.add(new JLabel("Elegi filas con Ctrl o Shift; si no elegis ninguna se confirman todas."));
+        abajo.add(historial);
         abajo.add(confirmar);
         add(abajo, BorderLayout.SOUTH);
         refrescar();
@@ -186,9 +192,40 @@ public class PanelAsignacion extends JPanel implements Refrescable {
             if (!r.errores().isEmpty()) {
                 mensaje.append("\n\nNo se pudieron confirmar:\n- ").append(String.join("\n- ", r.errores()));
             }
+            if (!r.erroresAviso().isEmpty()) {
+                mensaje.append("\n\nAsignaciones guardadas con problemas en el aviso (no vuelvas a confirmarlas):\n- ")
+                        .append(String.join("\n- ", r.erroresAviso()));
+            }
             Utilidades.info(this, mensaje.toString());
             modelo.setFilas(List.of());
             actualizarEstado();
+        } catch (RuntimeException e) {
+            Utilidades.error(this, e);
+        }
+    }
+
+    private void mostrarHistorial() {
+        try {
+            List<AsignacionHistorica> registros = controlador.listarHistorial();
+            if (registros.isEmpty()) {
+                Utilidades.info(this, "Todavia no hay reasignaciones confirmadas");
+                return;
+            }
+            ModeloTablaLista<AsignacionHistorica> historial = new ModeloTablaLista<>(
+                    new String[] {"DNI", "Punto anterior", "Entrada", "Salida", "Reasignado el"},
+                    (registro, columna) -> switch (columna) {
+                        case 0 -> registro.dni();
+                        case 1 -> registro.codigoPunto();
+                        case 2 -> registro.entrada() == null ? "" : registro.entrada().toString();
+                        case 3 -> registro.salida() == null ? "" : registro.salida().toString();
+                        default -> registro.fechaCambio().toString();
+                    });
+            historial.setFilas(registros);
+            JTable tablaHistorial = new JTable(historial);
+            tablaHistorial.setAutoCreateRowSorter(true);
+            JScrollPane scroll = new JScrollPane(tablaHistorial);
+            scroll.setPreferredSize(new Dimension(800, Math.min(400, 50 + registros.size() * 25)));
+            JOptionPane.showMessageDialog(this, scroll, "Historial de reasignaciones", JOptionPane.INFORMATION_MESSAGE);
         } catch (RuntimeException e) {
             Utilidades.error(this, e);
         }

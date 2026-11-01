@@ -64,6 +64,17 @@ CREATE TABLE IF NOT EXISTS asistencia (
     CHECK (salida IS NULL OR (entrada IS NOT NULL AND salida >= entrada))
 );
 
+-- Al reasignar, una copia del puesto y su asistencia queda aqui antes de borrar la asignacion activa.
+-- No tiene FK al voluntario ni al punto para conservar el registro si luego se dan de baja.
+CREATE TABLE IF NOT EXISTS asignacion_historial (
+    codigo_qr     TEXT PRIMARY KEY,
+    dni           TEXT NOT NULL,
+    codigo_punto  TEXT NOT NULL,
+    entrada       TEXT,
+    salida        TEXT,
+    fecha_cambio  TEXT NOT NULL
+);
+
 -- Cola de avisos por mail que no se pudieron enviar (sin red). Sobrevive al cierre de la app (tarjeta 3.12).
 -- "orden" conserva el orden de llegada; el QR se guarda como imagen PNG (BLOB).
 CREATE TABLE IF NOT EXISTS mail_pendiente (

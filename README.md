@@ -50,6 +50,7 @@ Cada rol ve solo las pestañas que le corresponden. Tras 5 intentos fallidos, el
 4. **Asignacion** (coordinador).
    - *Sugerir asignacion*: elegir punto, habilidad y turno; el sistema propone voluntarios libres y disponibles. Escribir el punto de encuentro y *Confirmar*: se guarda, se arma el mail con el QR y se envia (o queda en cola si no hay red).
    - *Sugerir reasignacion (emergencia)*: para un punto con deficit, propone mover voluntarios **presentes** de zonas cercanas con sobrante. Al confirmar, el voluntario cambia de punto, recibe un QR nuevo y un aviso de cambio.
+   - *Ver historial*: muestra los puestos anteriores, la asistencia registrada y la fecha de cada reasignacion. Una reasignacion fallida no crea un registro historico.
 5. **Check-in / Check-out** (coordinador y operador). Escribir o elegir el codigo QR del voluntario y *Registrar entrada/salida*, o leer una imagen del QR con *Entrada/Salida con imagen QR...*. Con *Guardar QR de la fila elegida* se obtiene una imagen para probar el lector.
 6. **Cobertura** (todos). Tabla por punto: **verde** cubierto, **rojo** deficit, **amarillo** sobrante. Se actualiza sola cuando cambian asignaciones o entradas/salidas.
 7. **Usuarios** (admin). Crear usuarios, cambiar rol, activar/desactivar, restablecer clave y eliminar. No se puede quitar el acceso al propio usuario ni dejar al sistema sin administrador activo.

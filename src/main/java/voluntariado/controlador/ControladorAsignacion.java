@@ -4,8 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 import voluntariado.dao.AsignacionDAO;
 import voluntariado.modelo.Asignacion;
+import voluntariado.modelo.AsignacionHistorica;
 import voluntariado.modelo.DatosInvalidosException;
 import voluntariado.modelo.Disponibilidad;
+import voluntariado.modelo.EstadoAsignacion;
 import voluntariado.modelo.EstrategiaAsignacion;
 import voluntariado.modelo.Habilidad;
 import voluntariado.modelo.MotorAsignacion;
@@ -21,7 +23,8 @@ import voluntariado.servicios.ServicioNotificaciones;
 // Confirmar guarda en la base, avisa por mail (o lo deja en cola si no hay red) y actualiza la cobertura.
 public class ControladorAsignacion {
 
-    public record Resultado(int confirmadas, int reasignadas, int avisosPendientes, List<String> errores) { }
+    public record Resultado(int confirmadas, int reasignadas, int avisosPendientes,
+            List<String> errores, List<String> erroresAviso) { }
 
     private final RepositorioEnMemoria repositorio;
     private final AsignacionDAO dao;
@@ -64,6 +67,11 @@ public class ControladorAsignacion {
         return repositorio.getAsignacionesPorPunto(codigoPunto).size();
     }
 
+    public List<AsignacionHistorica> listarHistorial() {
+        sesion.exigirPermiso(Accion.CONFIRMAR_ASIGNACIONES);
+        return dao.listarHistorial();
+    }
+
     // Codigo del punto donde ya esta confirmado el voluntario, o null si todavia no tiene puesto.
     public String puntoActualDe(String dni) {
         return repositorio.estaAsignado(dni) ? repositorio.buscarAsignacionDeVoluntario(dni).getPunto().getCodigo() : null;
@@ -77,44 +85,62 @@ public class ControladorAsignacion {
         if (puntoEncuentro == null || puntoEncuentro.isBlank()) {
             throw new DatosInvalidosException("El punto de encuentro es obligatorio");
         }
+        if (turno == null) {
+            throw new DatosInvalidosException("El turno es obligatorio");
+        }
         int confirmadas = 0;
         int reasignadas = 0;
         List<String> errores = new ArrayList<>();
+        List<String> erroresAviso = new ArrayList<>();
         for (Asignacion sugerencia : sugerencias) {
             String quien = sugerencia.getVoluntario().getApellido() + ", " + sugerencia.getVoluntario().getNombre();
+            Asignacion anterior;
             try {
                 if (repositorio.estaAsignado(sugerencia.getVoluntario().getDni())) {
-                    reasignar(sugerencia, turno, puntoEncuentro);
+                    anterior = reasignar(sugerencia);
                     reasignadas++;
                 } else {
                     servicioAsignaciones.confirmar(sugerencia);
-                    notificaciones.enviarOEncolar(notificaciones.crearAviso(sugerencia, turno, puntoEncuentro));
+                    anterior = null;
                 }
                 confirmadas++;
             } catch (RuntimeException e) {
                 errores.add(quien + ": " + e.getMessage());
+                continue;
+            }
+            try {
+                if (anterior == null) {
+                    notificaciones.enviarOEncolar(notificaciones.crearAviso(sugerencia, turno, puntoEncuentro));
+                } else {
+                    notificaciones.enviarOEncolar(
+                            notificaciones.crearAvisoCambio(anterior, sugerencia, turno, puntoEncuentro));
+                }
+            } catch (RuntimeException e) {
+                erroresAviso.add(quien + ": " + e.getMessage());
             }
         }
-        return new Resultado(confirmadas, reasignadas, notificaciones.getCantidadPendientes(), errores);
+        return new Resultado(confirmadas, reasignadas, notificaciones.getCantidadPendientes(),
+                errores, erroresAviso);
     }
 
-    // Mueve al voluntario: se borra su asignacion anterior y se confirma la nueva (con QR nuevo).
-    // Si la nueva falla, se restaura la anterior para no dejar al voluntario sin puesto.
-    private void reasignar(Asignacion nueva, Disponibilidad turno, String puntoEncuentro) {
+    // La base cambia ambos puestos en una transaccion; solo despues se actualiza la memoria.
+    private Asignacion reasignar(Asignacion nueva) {
         Asignacion anterior = repositorio.buscarAsignacionDeVoluntario(nueva.getVoluntario().getDni());
         if (anterior.getPunto().equals(nueva.getPunto())) {
             throw new DatosInvalidosException("El voluntario ya esta en ese punto");
         }
-        dao.eliminar(anterior.getCodigoQr());
+        if (nueva.getEstado() != EstadoAsignacion.SUGERIDA
+                || repositorio.buscarVoluntario(nueva.getVoluntario().getDni()) != nueva.getVoluntario()
+                || repositorio.buscarPunto(nueva.getPunto().getCodigo()) != nueva.getPunto()) {
+            throw new DatosInvalidosException("La nueva asignacion debe ser una sugerencia para un voluntario y punto registrados");
+        }
+        Asignacion confirmada = new Asignacion(nueva.getVoluntario(), nueva.getPunto(),
+                nueva.getCodigoQr(), EstadoAsignacion.CONFIRMADA);
+        dao.reasignar(anterior, confirmada);
         asistencia.olvidarRegistro(anterior.getCodigoQr());
         repositorio.quitarAsignacion(anterior);
-        try {
-            servicioAsignaciones.confirmar(nueva);
-        } catch (RuntimeException e) {
-            dao.guardar(anterior);
-            repositorio.registrarAsignacion(anterior);
-            throw e;
-        }
-        notificaciones.enviarOEncolar(notificaciones.crearAvisoCambio(anterior, nueva, turno, puntoEncuentro));
+        nueva.confirmar();
+        repositorio.registrarAsignacion(nueva);
+        return anterior;
     }
 }
