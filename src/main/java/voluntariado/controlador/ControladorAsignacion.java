@@ -60,6 +60,15 @@ public class ControladorAsignacion {
         return motorReasignacion.generarSugerencias(destino, asistencia.getRegistros(), habilidad, turno);
     }
 
+    public int cantidadAsignados(String codigoPunto) {
+        return repositorio.getAsignacionesPorPunto(codigoPunto).size();
+    }
+
+    // Codigo del punto donde ya esta confirmado el voluntario, o null si todavia no tiene puesto.
+    public String puntoActualDe(String dni) {
+        return repositorio.estaAsignado(dni) ? repositorio.buscarAsignacionDeVoluntario(dni).getPunto().getCodigo() : null;
+    }
+
     public Resultado confirmar(List<Asignacion> sugerencias, Disponibilidad turno, String puntoEncuentro) {
         sesion.exigirPermiso(Accion.CONFIRMAR_ASIGNACIONES);
         if (sugerencias == null || sugerencias.isEmpty()) {

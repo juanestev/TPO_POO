@@ -46,6 +46,23 @@ public class ControladorAsistencia {
         return registrarEntradaManual(CodigoQr.leerImagen(imagen), momento);
     }
 
+    public RegistroAsistencia registrarSalidaDesdeImagen(BufferedImage imagen, LocalDateTime momento) {
+        return registrarSalidaManual(CodigoQr.leerImagen(imagen), momento);
+    }
+
+    // PNG del QR de una asignacion (para imprimirlo o probar el lector con una imagen).
+    public byte[] generarImagenQr(String codigoQr) {
+        return CodigoQr.generarImagen(repositorio.buscarAsignacionPorQr(codigoQr).getCodigoQr(), 300);
+    }
+
+    public List<Asignacion> getAsignaciones() {
+        List<Asignacion> todas = new ArrayList<>();
+        for (voluntariado.modelo.PuntoDeControl punto : repositorio.getPuntos()) {
+            todas.addAll(repositorio.getAsignacionesPorPunto(punto.getCodigo()));
+        }
+        return todas;
+    }
+
     public RegistroAsistencia registrarSalidaManual(String codigo, LocalDateTime momento) {
         String qr = CodigoQr.validarCodigoManual(codigo);
         RegistroAsistencia nuevo = copiarRegistro(qr);

@@ -36,6 +36,13 @@ public class ControladorCobertura implements ObservadorCobertura, AutoCloseable 
                 calculador.calcular(punto, registros));
     }
 
+    // Pide a la vista que muestre todos los puntos (al abrir la pantalla o cuando se agregan/borran puntos).
+    public void refrescarTodos() {
+        for (PuntoDeControl punto : repositorio.getPuntos()) {
+            alCambiar(punto);
+        }
+    }
+
     @Override
     public void close() {
         repositorio.quitarObservadorCobertura(this);
