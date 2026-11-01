@@ -3,6 +3,7 @@ package voluntariado.dao;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -64,6 +65,13 @@ class UsuarioDAOTest extends BaseTemporal {
 
         assertThrows(DatosInvalidosException.class, () -> usuarioDAO.buscarPorNombre("marta"));
         assertThrows(DatosInvalidosException.class, () -> usuarioDAO.eliminar("marta"));
+    }
+
+    @Test
+    void existeNoDistingueMayusculas() {
+        usuarioDAO.guardar(new Usuario("marta", "h", "s", Rol.OPERADOR));
+        assertTrue(usuarioDAO.existe("MARTA"));
+        assertFalse(usuarioDAO.existe("otra"));
     }
 
     @Test

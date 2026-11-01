@@ -65,6 +65,20 @@ public class UsuarioDAOSQLite implements UsuarioDAO {
     }
 
     @Override
+    public boolean existe(String nombreUsuario) {
+        String nombre = Errores.validarClave(nombreUsuario, "nombre de usuario");
+        try (Connection c = conexionBD.abrir();
+                PreparedStatement ps = c.prepareStatement("SELECT 1 FROM usuario WHERE nombre_usuario = ?")) {
+            ps.setString(1, nombre);
+            try (ResultSet rs = ps.executeQuery()) {
+                return rs.next();
+            }
+        } catch (SQLException e) {
+            throw new PersistenciaException("No se pudo consultar el usuario " + nombre, e);
+        }
+    }
+
+    @Override
     public List<Usuario> listarTodos() {
         List<Usuario> usuarios = new ArrayList<>();
         try (Connection c = conexionBD.abrir();

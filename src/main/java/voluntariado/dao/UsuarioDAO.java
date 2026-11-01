@@ -12,6 +12,8 @@ public interface UsuarioDAO {
     // Lanza DatosInvalidosException si no existe (igual que los otros DAO).
     Usuario buscarPorNombre(String nombreUsuario);
 
+    boolean existe(String nombreUsuario);
+
     List<Usuario> listarTodos();
 
     // Lanza DatosInvalidosException si no existe.
